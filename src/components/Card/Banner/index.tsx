@@ -66,7 +66,7 @@ export default function Banner(props: BannerProps) {
     <div className={classnames(styles.wrapper, className)}>
       <div className={styles.titleWrapper}>
         <div className={styles.icon}>
-          <Icon name={icon || "catalog"} size={48} />
+          <Icon name={icon || "gateway-duotone"} size={48} />
         </div>
         <div className={styles.title}>
           <div className="h3">{title}</div>

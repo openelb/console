@@ -8,13 +8,13 @@ export default function Header() {
       <div className={styles.navs}>
         <Button
           type="flat"
-          icon="gateway"
+          icon="eip-duotone"
         >
           EIP
         </Button>
         <Button
           type="flat"
-          icon="cogwheel"
+          icon="gateway-duotone"
         >
           BGP
         </Button>
