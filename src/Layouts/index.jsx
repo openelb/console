@@ -10,7 +10,6 @@ class Layout extends Component {
   }
 
   render() {
-    console.log(styles);
     return (
       <>
         <Header {...this.props} />

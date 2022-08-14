@@ -1,9 +1,12 @@
-import React, { Component } from 'react'
+import { renderRoutes } from '../../utils/router.config'
+import routes from './routes'
+import actions from '../../actions/BGP'
+import {inject} from 'mobx-react'
 
-export default class EIP extends Component {
-  render() {
-    return (
-      <div>EIP</div>
-    )
-  }
+const EIP = ({ rootStore }) => {
+  rootStore.resetAction()
+  rootStore.registerActions(actions)
+  return renderRoutes(routes)
 }
+
+export default inject("rootStore")(EIP)
