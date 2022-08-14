@@ -1,22 +1,4 @@
-/*
- * This file is part of KubeSphere Console.
- * Copyright (C) 2019 The KubeSphere Console Authors.
- *
- * KubeSphere Console is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * KubeSphere Console is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with KubeSphere Console.  If not, see <https://www.gnu.org/licenses/>.
- */
-
-import { action, observable, extendObservable } from 'mobx'
+import { action, observable, extendObservable, makeObservable } from 'mobx'
 import { RouterStore } from 'mobx-react-router'
 import { parse } from 'qs'
 import { getQueryString } from '../utils'
@@ -25,9 +7,14 @@ export default class RootStore {
   actions = observable({})
 
   constructor() {
+    makeObservable(this, {
+      registerActions: action,
+      triggerAction: action,
+    })
     this.routing = new RouterStore()
     this.routing.query = this.query
 
+    makeObservable(this.routing)
     global.navigateTo = this.routing.push
   }
 
@@ -44,11 +31,15 @@ export default class RootStore {
     this.routing.push(`${pathname}?${getQueryString(newParams)}`)
   }
 
-  registerActions = action(actions => {
+  registerActions = (actions) => {
     extendObservable(this.actions, actions)
-  })
+  }
 
-  triggerAction = action((id, ...rest) => {
+  resetAction = () => {
+    this.actions = {}
+  }
+
+  triggerAction = (id, ...rest) => {
     this.actions[id] && this.actions[id].on(...rest)
-  })
+  }
 }

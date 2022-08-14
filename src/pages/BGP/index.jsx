@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import { renderRoutes } from '../../utils/router.config'
+import routes from './routes'
+import actions from '../../actions/BGP'
+import {inject} from 'mobx-react'
 
-class BGP extends Component {
-  render() {
-    return (
-      <div>BGP</div>
-    )
-  }
+const BGP = ({ rootStore }) => {
+  rootStore.resetAction()
+  rootStore.registerActions(actions)
+  return renderRoutes(routes)
 }
 
-export default BGP
+export default inject("rootStore")(BGP)
