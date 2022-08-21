@@ -44,6 +44,9 @@ const EIPMapper = item => ({
   protocol: get(item, 'spec.protocol', ""),
   poolSize: get(item, 'status.poolSize', 0),
   usage: get(item, 'status.usage', 0),
+  interface: get(item, 'spec.interface', ""),
+  default: get(item, 
+    'metadata.annotations["eip.openelb.kubesphere.io/is-default-eip"]', ""),
   _originData: getOriginData(item),
 })
 
