@@ -1,0 +1,89 @@
+@import '/src/scss/variables';
+
+.cell {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 8px;
+}
+
+.tag {
+  color: $dark-color06;
+  background: $light-color03;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px 4px;
+  gap: 4px;
+
+  &>text {
+    font-weight: 600;
+  }
+}
+
+.usage {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+
+  &>text {
+    font-weight: 600;
+  }
+
+  &>div {
+    font-weight: 400;
+  }
+}
+
+.cell1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 12px;
+}
+
+.nametexts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+}
+
+.name {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 8px;
+
+  & text {
+    font-weight: 600;
+  }
+
+  &>div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 4px;
+    gap: 4px;
+    background: #242E42;
+    border-radius: 2px;
+
+    & text {
+      font-weight: 600;
+      color: $white;
+    }
+  }
+}
+
+.condition {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 4px;
+}

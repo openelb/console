@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
+import { Icon, Tooltip } from '@kube-design/components'
 import EIPStore from '../../../stores/eip'
 import withList from '../../../components/HOCs/withList'
 import Table from '../../../components/Tables/List'
 import Banner from '../../../components/Banner'
 import { ListPage } from '../../../components/HOCs/withList'
+import moment from "moment"
+import styles from "./index.module.scss"
+import done from "../../../assets/done.svg"
+import failure from "../../../assets/failure.svg"
+
 class List extends Component {
   get routing() {
     return this.props.rootStore.routing
@@ -19,7 +25,7 @@ class List extends Component {
   }
 
   handleCreateClick = () => {
-    console.log('create');
+    console.log('create')
   }
 
   getColumns() {
@@ -32,15 +38,42 @@ class List extends Component {
         sortOrder: getSortOrder('name'),
         search: true,
         sorter: true,
-        with: '21.8%',
+        with: '21.80%',
         render: (name, record) => {
-          return <div>{name}</div>
+          console.log(record.default)
+          let enabled
+          if (record.disable) {
+            enabled = 'Disabled'
+          } else {
+            enabled = 'Enabled'
+          }
+
+          let isDefault
+          if (record.default === 'true') {
+            isDefault = 'default'
+          }
+
+          return <div className={styles.cell1}>
+            <Icon name='eip-duotone' size={40} />
+            <div className={styles.nametexts}>
+              <div className={styles.name}>
+                <text>{name}</text>
+                {isDefault ? <div>
+                  <text>{isDefault}</text>
+                </div> : ''}
+              </div>
+              <div className={styles.condition}>
+                <img src={record.disable ? failure : done} alt="" />
+                <text>{enabled}</text>
+              </div>
+            </div>
+          </div>
         },
       },
       {
         title: 'Address',
         dataIndex: 'address',
-        with: '18.62%',
+        with: '19.28%',
         isHideable: true,
         render: (address, record) => {
           return <div>{address}</div>
@@ -52,35 +85,43 @@ class List extends Component {
         isHideable: true,
         with: '18.62%',
         render: (protocol, record) => {
-          return <div>{protocol}</div>
+          if (!protocol) {
+            protocol = 'bgp'
+          }
+
+          return <div className={styles.cell}>{protocol}
+            {(protocol === 'layer2') 
+            ? <Tooltip content={`interface: ${record.interface}`}>
+              <div className={styles.tag}>
+                <text>{record.interface}</text>
+              </div>
+            </Tooltip> : ''}
+          </div>
         },
       },
       {
         title: 'Used EIP',
         dataIndex: 'usage',
-        with: '18.62%',
+        with: '19.28%',
         isHideable: true,
         render: (usage, record) => {
-          return <div>{usage}- total: {record.poolSize}</div>
+          return <div>
+            <div className={styles.usage}>
+              <text>{usage}</text>
+              Total: {record.poolSize}
+            </div>
+          </div>
         },
       },
       {
-        title: 'Test',
-        dataIndex: 'poolSize',
-        with: '18.62%',
-        isHideable: true,
-        render: (usage, record) => {
-          return <div>Render what you want</div>
-        },
-      },
-      {
-        title: 'CreateTime',
+        title: 'Creation Time',
         dataIndex: 'createTime',
         sorter: true,
         sortOrder: getSortOrder('createtime'),
         isHideable: true,
         render: (createTime, record) => {
-          return <div>{createTime || '-'}</div>
+          const date = new Date(createTime)
+          return <div>{moment(date).format('YYYY-MM-DD hh:mm:ss') || '-'}</div>
         },
       },
     ]

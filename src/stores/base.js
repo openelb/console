@@ -103,7 +103,7 @@ class BaseStore {
     params.limit = params.limit || 10
 
     const result = await request.get(
-      this.getResourceUrl(),
+      this.getListUrl(),
       this.getFilterParams(params)
     )
     const data = (get(result, 'items') || []).map(item => ({

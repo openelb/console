@@ -4,8 +4,8 @@ export const LIST_DEFAULT_ORDER = {
 }
 
 export const API_VERSIONS = {
-  bgp: 'apis/apps/v1',
-  eip: 'apis/apps/v1',
+  bgp: 'apis/v1',
+  eip: 'apis/v1',
 }
 
 export const ICON_TYPES = {
