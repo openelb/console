@@ -1,0 +1,45 @@
+@import "/src/scss/variables.scss";
+
+.header {
+  position: relative;
+  height: $header-height;
+  background-color: $body-bg-color;
+}
+
+:global {
+  .header-bottom {
+    width: 100%;
+    height: 1px;
+    border-style: solid;
+    border-width: 1px 0 0 0;
+    border-image-source: radial-gradient(100% 207359975.94% at 0% 0%, rgba(226, 230, 234, 0.18) 0%, #C1C9D1 50%, rgba(226, 230, 234, 0.18) 100%);
+    border-image-slice: 1;
+  }
+}
+
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 30px;
+  transform: translate(-50%, -50%);
+}
+
+.navs {
+  display: inline-block;
+  padding: 18px 20px;
+  color: white;
+
+  button {
+    padding: 5px 11px !important;
+
+    &+button {
+      margin-left: 12px !important;
+    }
+
+    &:hover {
+      color: $text-color;
+    }
+  }
+}
