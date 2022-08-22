@@ -34,6 +34,20 @@ const getBaseInfo = item => ({
 
 const BGPMapper = item => ({
   ...getBaseInfo(item),
+  status: get(item,
+    `status.nodesPeerStatus.${Object.keys(item.status.nodesPeerStatus)[0]}.peerState.sessionState`, ""),
+  localAs: get(item,
+    `status.nodesPeerStatus.${Object.keys(item.status.nodesPeerStatus)[0]}.peerState.localAs`, ""),
+  peerAs: get(item, 'spec.conf.peerAs', ""),
+  neighborAddress: get(item,
+    `status.nodesPeerStatus.${Object.keys(item.status.nodesPeerStatus)[0]}.peerState.neighborAddress`, ""),
+  peerType: get(item,
+    `status.nodesPeerStatus.${Object.keys(item.status.nodesPeerStatus)[0]}.peerState.peerType`, 0),
+  sendMax: get(item, 'spec.afiSafis[0].addPaths.config.sendMax', ""),
+  bgpPeerLeaf: get(item,
+    'spec.nodeSelector.matchLabels["openelb.kubesphere.io/rack"]', ""),
+  description: get(item, 
+    `status.nodesPeerStatus.${Object.keys(item.status.nodesPeerStatus)[0]}.peerState.description`, ""),
   _originData: getOriginData(item),
 })
 
@@ -45,7 +59,7 @@ const EIPMapper = item => ({
   poolSize: get(item, 'status.poolSize', 0),
   usage: get(item, 'status.usage', 0),
   interface: get(item, 'spec.interface', ""),
-  default: get(item, 
+  default: get(item,
     'metadata.annotations["eip.openelb.kubesphere.io/is-default-eip"]', ""),
   _originData: getOriginData(item),
 })
