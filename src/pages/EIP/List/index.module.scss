@@ -18,7 +18,7 @@
   padding: 0px 4px;
   gap: 4px;
 
-  &>text {
+  &>p {
     font-weight: 600;
   }
 }
@@ -29,7 +29,7 @@
   align-items: flex-start;
   padding: 0px;
 
-  &>text {
+  &>p {
     font-weight: 600;
   }
 
@@ -44,46 +44,46 @@
   align-items: center;
   padding: 0px;
   gap: 12px;
-}
 
-.nametexts {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-}
-
-.name {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 8px;
-
-  & text {
-    font-weight: 600;
-  }
-
-  &>div {
+  .nametexts {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0px 4px;
-    gap: 4px;
-    background: #242E42;
-    border-radius: 2px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
 
-    & text {
-      font-weight: 600;
-      color: $white;
+    .name {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 0px;
+      gap: 8px;
+
+      & p {
+        font-weight: 600;
+      }
+
+      &>div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0px 4px;
+        gap: 4px;
+        background: #242E42;
+        border-radius: 2px;
+
+        & p {
+          font-weight: 600;
+          color: $white;
+        }
+      }
+    }
+
+    .condition {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 0px;
+      gap: 4px;
     }
   }
-}
-
-.condition {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  gap: 4px;
 }

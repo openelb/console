@@ -40,7 +40,6 @@ class List extends Component {
         sorter: true,
         with: '21.80%',
         render: (name, record) => {
-          console.log(record.default)
           let enabled
           if (record.disable) {
             enabled = 'Disabled'
@@ -57,14 +56,14 @@ class List extends Component {
             <Icon name='eip-duotone' size={40} />
             <div className={styles.nametexts}>
               <div className={styles.name}>
-                <text>{name}</text>
+                <p>{name}</p>
                 {isDefault ? <div>
-                  <text>{isDefault}</text>
+                  <p>{isDefault}</p>
                 </div> : ''}
               </div>
               <div className={styles.condition}>
                 <img src={record.disable ? failure : done} alt="" />
-                <text>{enabled}</text>
+                <p>{enabled}</p>
               </div>
             </div>
           </div>
@@ -93,7 +92,7 @@ class List extends Component {
             {(protocol === 'layer2') 
             ? <Tooltip content={`interface: ${record.interface}`}>
               <div className={styles.tag}>
-                <text>{record.interface}</text>
+                <p>{record.interface}</p>
               </div>
             </Tooltip> : ''}
           </div>
@@ -107,7 +106,7 @@ class List extends Component {
         render: (usage, record) => {
           return <div>
             <div className={styles.usage}>
-              <text>{usage}</text>
+              <p>{usage}</p>
               Total: {record.poolSize}
             </div>
           </div>
