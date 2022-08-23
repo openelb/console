@@ -11,8 +11,13 @@ import established from '../../../assets/establishedstatusdot.svg'
 import idle from '../../../assets/idlestatusdot.svg'
 import opensent from '../../../assets/opensentconfirmstatusdot.svg'
 import { Icon } from "@kube-design/components"
+import { toJS } from "mobx"
 
 class List extends Component {
+  componentDidMount() {
+    this.props.store.getConf()
+  }
+
   get routing() {
     return this.props.rootStore.routing
   }
@@ -56,7 +61,7 @@ class List extends Component {
           return <div className={styles.name}>
             <Icon name="conversion-node" size={40} />
             <div>
-              <text>{name}</text>
+              <p>{name}</p>
               {record.description}
             </div>
           </div>
@@ -96,7 +101,7 @@ class List extends Component {
           }
           return <div className={styles.status}>
             <img src={statusIcon} alt=""></img>
-            <text>{statusText}</text>
+            <p>{statusText}</p>
           </div>
         }
       },
@@ -167,12 +172,82 @@ class List extends Component {
     ]
   }
 
+  renderBgpConf() {
+    const conf = toJS(this.props.store.conf)
+
+    return <div className={styles.bgpConf}>
+      <div className={styles.frame1}>
+        <div className={styles.summary}>
+          <Icon name="gateway-duotone" size={40} />
+          <div>
+            <div>
+              <p>{conf.name}</p>
+              BgpConf
+            </div>
+            <div style={{ flexGrow: 2 }}>
+              <p>{moment(new Date(conf.createTime))
+                .format('YYYY-MM-DD hh:mm:ss') || '-'}</p>
+              Creation Time
+            </div>
+          </div>
+        </div>
+        <button>
+          Edit BgpConf
+        </button>
+      </div>
+
+      <div className={styles.frame2}>
+        <div>
+          <Icon name="duotone" size={40} />
+          <div>
+            <p>{conf.as}</p>
+            ASN
+          </div>
+        </div>
+        <div>
+          <Icon name="network-port" size={40} />
+          <div>
+            <p>{conf.listenPort}</p>
+            ListenPort
+          </div>
+        </div>
+        <div>
+          <Icon name="lab-router" size={40} />
+          <div>
+            <p>{conf.routerID}</p>
+            RouterID
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.frame3}>
+        <div>
+          <div>
+            <span>
+              <div><p>{conf.nodeCount}</p></div>
+            </span>
+            <p>Running Nodes:</p>
+          </div>
+          <div>
+            {conf.nodes?.map((node, index) => {
+              return <div key={index}>
+                <Icon name="nodes" size={40} />
+                <p>{node}</p>
+              </div>
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
   render() {
     const { tableProps } = this.props
 
     return (
       <>
         <Banner {...this.BannerProps} />
+        {this.renderBgpConf()}
         <ListPage {...this.props}>
           <Table
             {...tableProps}
