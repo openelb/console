@@ -58,13 +58,13 @@ class List extends Component {
         isHideable: true,
         with: '17.44%',
         render: (name, record) => {
-          return <div className={styles.name}>
+          return (<div className={styles.name}>
             <Icon name="conversion-node" size={40} />
             <div>
               <p>{name}</p>
               {record.description}
             </div>
-          </div>
+          </div>)
         },
       },
       {
@@ -99,10 +99,10 @@ class List extends Component {
             default:
               break
           }
-          return <div className={styles.status}>
+          return (<div className={styles.status}>
             <img src={statusIcon} alt=""></img>
             <p>{statusText}</p>
-          </div>
+          </div>)
         }
       },
       {
@@ -175,7 +175,7 @@ class List extends Component {
   renderBgpConf() {
     const conf = toJS(this.props.store.conf)
 
-    return <div className={styles.bgpConf}>
+    return (<div className={styles.bgpConf}>
       <div className={styles.frame1}>
         <div className={styles.summary}>
           <Icon name="gateway-duotone" size={40} />
@@ -230,15 +230,15 @@ class List extends Component {
           </div>
           <div>
             {conf.nodes?.map((node, index) => {
-              return <div key={index}>
+              return (<div key={index}>
                 <Icon name="nodes" size={40} />
                 <p>{node}</p>
-              </div>
+              </div>)
             })}
           </div>
         </div>
       </div>
-    </div>
+    </div>)
   }
 
   render() {
@@ -252,6 +252,7 @@ class List extends Component {
           <Table
             {...tableProps}
             columns={this.getColumns()}
+            itemActions={this.itemActions}
             onCreate={this.handleCreateClick}
             searchType={'name'}
           />

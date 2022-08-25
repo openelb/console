@@ -52,21 +52,21 @@ class List extends Component {
             isDefault = 'default'
           }
 
-          return <div className={styles.cell1}>
+          return (<div className={styles.cell1}>
             <Icon name='eip-duotone' size={40} />
             <div className={styles.nametexts}>
               <div className={styles.name}>
                 <p>{name}</p>
-                {isDefault ? <div>
+                {isDefault ? (<div>
                   <p>{isDefault}</p>
-                </div> : ''}
+                </div>) : ''}
               </div>
               <div className={styles.condition}>
                 <img src={record.disable ? failure : done} alt="" />
                 <p>{enabled}</p>
               </div>
             </div>
-          </div>
+          </div>)
         },
       },
       {
@@ -88,14 +88,14 @@ class List extends Component {
             protocol = 'bgp'
           }
 
-          return <div className={styles.cell}>{protocol}
-            {(protocol === 'layer2') 
-            ? <Tooltip content={`interface: ${record.interface}`}>
-              <div className={styles.tag}>
-                <p>{record.interface}</p>
-              </div>
-            </Tooltip> : ''}
-          </div>
+          return (<div className={styles.cell}>{protocol}
+            {(protocol === 'layer2')
+              ? (<Tooltip content={`interface: ${record.interface}`}>
+                <div className={styles.tag}>
+                  <p>{record.interface}</p>
+                </div>
+              </Tooltip>) : ''}
+          </div>)
         },
       },
       {
@@ -104,12 +104,12 @@ class List extends Component {
         with: '19.28%',
         isHideable: true,
         render: (usage, record) => {
-          return <div>
+          return (<div>
             <div className={styles.usage}>
               <p>{usage}</p>
               Total: {record.poolSize}
             </div>
-          </div>
+          </div>)
         },
       },
       {
