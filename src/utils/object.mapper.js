@@ -33,24 +33,27 @@ const getBaseInfo = item => ({
   isFedManaged: get(item, 'metadata.labels["kubefed.io/managed"]') === 'true',
 })
 
-const BGPMapper = item => ({
-  ...getBaseInfo(item),
-  status: get(item,
-    `status.nodesPeerStatus.${Object.keys(item?.status.nodesPeerStatus)[0]}.peerState.sessionState`, ""),
-  localAs: get(item,
-    `status.nodesPeerStatus.${Object.keys(item?.status.nodesPeerStatus)[0]}.peerState.localAS`, "-"),
-  peerAs: get(item, 'spec.conf.peerAs', ""),
-  neighborAddress: get(item,
-    `status.nodesPeerStatus.${Object.keys(item?.status.nodesPeerStatus)[0]}.peerState.neighborAddress`, ""),
-  peerType: get(item,
-    `status.nodesPeerStatus.${Object.keys(item?.status.nodesPeerStatus)[0]}.peerState.peerType`, 0),
-  sendMax: get(item, 'spec.afiSafis[0].addPaths.config.sendMax', "-"),
-  bgpPeerLeaf: get(item,
-    'spec.nodeSelector.matchLabels["openelb.kubesphere.io/rack"]', "-"),
-  description: get(item, 
-    `status.nodesPeerStatus.${Object.keys(item?.status.nodesPeerStatus)[0]}.peerState.description`, ""),
-  _originData: getOriginData(item),
-})
+const BGPMapper = item => {
+  const nodeField = Object.keys(item?.status.nodesPeerStatus)[0]
+  return ({
+    ...getBaseInfo(item),
+    status: get(item,
+      `status.nodesPeerStatus?.${nodeField}.peerState.sessionState`, ""),
+    localAs: get(item,
+      `status.nodesPeerStatus?.${nodeField}.peerState.localAS`, "-"),
+    peerAs: get(item, 'spec.conf.peerAs', ""),
+    neighborAddress: get(item,
+      `status.nodesPeerStatus?.${nodeField}.peerState.neighborAddress`, ""),
+    peerType: get(item,
+      `status.nodesPeerStatus?.${nodeField}.peerState.peerType`, 0),
+    sendMax: get(item, 'spec.afiSafis[0].addPaths.config.sendMax', "-"),
+    bgpPeerLeaf: get(item,
+      'spec.nodeSelector.matchLabels["openelb.kubesphere.io/rack"]', "-"),
+    description: get(item,
+      `status.nodesPeerStatus?.${nodeField}.peerState.description`, ""),
+    _originData: getOriginData(item),
+  })
+}
 
 const BGPConfMapper = item => ({
   ...getBaseInfo(item),
