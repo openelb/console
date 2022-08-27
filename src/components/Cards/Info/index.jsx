@@ -8,6 +8,10 @@ class Info extends Component {
     return this.props.detail
   }
 
+  handleClick() {
+    this.props.routing.push("/eip")
+  }
+
   detailsKeys() {
     return [
       "Address",
@@ -46,7 +50,7 @@ class Info extends Component {
 
     return (
       <div className={styles.info}>
-        <div className={styles.button}>
+        <div className={styles.button} onClick={() => this.handleClick()}>
           <Icon name="chevron-left" size={16} color={{ primary: "#329DCE" }} />
           <p>EIP</p>
         </div>

@@ -1,6 +1,6 @@
 import { Loading, Tooltip } from "@kube-design/components"
 import { toJS } from "mobx"
-import { observer } from "mobx-react"
+import { inject, observer } from "mobx-react"
 import { Component } from "react"
 import Info from "../../../components/Cards/Info"
 import Service from "../../../components/Lists/Service"
@@ -17,6 +17,10 @@ import styles from "./index.module.scss"
 class Detail extends Component {
   get eip() {
     return this.props.match.params.eip
+  }
+
+  get routing() {
+    return this.props.rootStore.routing
   }
 
   componentDidMount() {
@@ -88,6 +92,7 @@ class Detail extends Component {
   }
 
   render() {
+    console.log(this.props.rootStore)
     if (this.store.isLoading && !this.store.detail.name) {
       return <Loading className="ks-page-loading" />
     }
@@ -95,11 +100,11 @@ class Detail extends Component {
     const detail = toJS(this.store.detail)
     return (
       <div className={styles.body}>
-        <Info detail={detail} />
+        <Info detail={detail} routing={this.routing} />
         {this.renderStatus(detail)}
       </div>
     )
   }
 }
 
-export default observer(trigger(Detail))
+export default inject("rootStore")(observer(trigger(Detail)))
