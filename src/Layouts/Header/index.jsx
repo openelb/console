@@ -6,7 +6,6 @@ import styles from "./index.module.scss"
 
 class Header extends Component {
   handleClick = (link) => {
-    console.log('props', this.props);
     this.props.rootStore.routing.push(link)
   }
 
@@ -19,7 +18,7 @@ class Header extends Component {
               type="flat"
               icon="eip-duotone"
               iconSize={16}
-              onClick={() => this.handleClick("./eip")}
+              onClick={() => this.handleClick("/eip")}
             >
               EIP
             </Button>
@@ -27,12 +26,12 @@ class Header extends Component {
               type="flat"
               icon="gateway-duotone"
               iconSize={16}
-              onClick={() => this.handleClick("./bgp")}
+              onClick={() => this.handleClick("/bgp")}
             >
               BGP
             </Button>
           </div>
-          <img className={styles.logo} src={logo} alt="openelb" onClick={() => this.handleClick("./eip")} />
+          <img className={styles.logo} src={logo} alt="openelb" onClick={() => this.handleClick("/eip")} />
         </div>
         <div className="header-bottom" />
       </>
