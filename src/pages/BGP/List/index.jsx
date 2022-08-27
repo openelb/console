@@ -6,10 +6,10 @@ import Table from '../../../components/Tables/List'
 import Banner from '../../../components/Banner'
 import { ListPage } from '../../../components/HOCs/withList'
 import styles from './index.module.scss'
-import connect from '../../../assets/connectactivestatusdot.svg'
-import established from '../../../assets/establishedstatusdot.svg'
-import idle from '../../../assets/idlestatusdot.svg'
-import opensent from '../../../assets/opensentconfirmstatusdot.svg'
+import connect from '../../../assets/connect-active-statusdot.svg'
+import established from '../../../assets/established-statusdot.svg'
+import idle from '../../../assets/idle-statusdot.svg'
+import opensent from '../../../assets/opensent-confirm-statusdot.svg'
 import { Icon } from "@kube-design/components"
 import { toJS } from "mobx"
 

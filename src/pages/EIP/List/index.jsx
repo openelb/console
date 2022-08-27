@@ -7,8 +7,8 @@ import Banner from '../../../components/Banner'
 import { ListPage } from '../../../components/HOCs/withList'
 import moment from "moment"
 import styles from "./index.module.scss"
-import done from "../../../assets/done.svg"
-import failure from "../../../assets/failure.svg"
+import check from "../../../assets/check.svg"
+import cross from "../../../assets/cross.svg"
 
 class List extends Component {
   get routing() {
@@ -62,7 +62,7 @@ class List extends Component {
                 </div>) : ''}
               </div>
               <div className={styles.condition}>
-                <img src={record.disable ? failure : done} alt="" />
+                <img src={record.disable ? cross : check} alt="" />
                 <p>{enabled}</p>
               </div>
             </div>
@@ -84,10 +84,6 @@ class List extends Component {
         isHideable: true,
         with: '18.62%',
         render: (protocol, record) => {
-          if (!protocol) {
-            protocol = 'bgp'
-          }
-
           return (<div className={styles.cell}>{protocol}
             {(protocol === 'layer2')
               ? (<Tooltip content={`interface: ${record.interface}`}>
