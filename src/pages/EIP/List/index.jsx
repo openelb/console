@@ -9,6 +9,7 @@ import moment from "moment"
 import styles from "./index.module.scss"
 import check from "../../../assets/check.svg"
 import cross from "../../../assets/cross.svg"
+import { Link } from "react-router-dom"
 
 class List extends Component {
   get routing() {
@@ -52,21 +53,24 @@ class List extends Component {
             isDefault = 'default'
           }
 
-          return (<div className={styles.cell1}>
-            <Icon name='eip-duotone' size={40} />
-            <div className={styles.nametexts}>
-              <div className={styles.name}>
-                <p>{name}</p>
-                {isDefault ? (<div>
-                  <p>{isDefault}</p>
-                </div>) : ''}
+          return (
+            <Link to={`eip/${name}`} style={{textDecoration: 'none'}}>
+              <div className={styles.cell1}>
+                <Icon name='eip-duotone' size={40} />
+                <div className={styles.nametexts}>
+                  <div className={styles.name}>
+                    <p>{name}</p>
+                    {isDefault ? (<div>
+                      <p>{isDefault}</p>
+                    </div>) : ''}
+                  </div>
+                  <div className={styles.condition}>
+                    <img src={record.disable ? cross : check} alt="" />
+                    <p>{enabled}</p>
+                  </div>
+                </div>
               </div>
-              <div className={styles.condition}>
-                <img src={record.disable ? cross : check} alt="" />
-                <p>{enabled}</p>
-              </div>
-            </div>
-          </div>)
+            </Link>)
         },
       },
       {
