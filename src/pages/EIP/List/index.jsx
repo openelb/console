@@ -40,7 +40,6 @@ class List extends Component {
         sorter: true,
         with: '21.80%',
         render: (name, record) => {
-          console.log(record.default)
           let enabled
           if (record.disable) {
             enabled = 'Disabled'
@@ -53,21 +52,21 @@ class List extends Component {
             isDefault = 'default'
           }
 
-          return <div className={styles.cell1}>
+          return (<div className={styles.cell1}>
             <Icon name='eip-duotone' size={40} />
             <div className={styles.nametexts}>
               <div className={styles.name}>
-                <text>{name}</text>
-                {isDefault ? <div>
-                  <text>{isDefault}</text>
-                </div> : ''}
+                <p>{name}</p>
+                {isDefault ? (<div>
+                  <p>{isDefault}</p>
+                </div>) : ''}
               </div>
               <div className={styles.condition}>
                 <img src={record.disable ? failure : done} alt="" />
-                <text>{enabled}</text>
+                <p>{enabled}</p>
               </div>
             </div>
-          </div>
+          </div>)
         },
       },
       {
@@ -89,14 +88,14 @@ class List extends Component {
             protocol = 'bgp'
           }
 
-          return <div className={styles.cell}>{protocol}
-            {(protocol === 'layer2') 
-            ? <Tooltip content={`interface: ${record.interface}`}>
-              <div className={styles.tag}>
-                <text>{record.interface}</text>
-              </div>
-            </Tooltip> : ''}
-          </div>
+          return (<div className={styles.cell}>{protocol}
+            {(protocol === 'layer2')
+              ? (<Tooltip content={`interface: ${record.interface}`}>
+                <div className={styles.tag}>
+                  <p>{record.interface}</p>
+                </div>
+              </Tooltip>) : ''}
+          </div>)
         },
       },
       {
@@ -105,12 +104,12 @@ class List extends Component {
         with: '19.28%',
         isHideable: true,
         render: (usage, record) => {
-          return <div>
+          return (<div>
             <div className={styles.usage}>
-              <text>{usage}</text>
+              <p>{usage}</p>
               Total: {record.poolSize}
             </div>
-          </div>
+          </div>)
         },
       },
       {

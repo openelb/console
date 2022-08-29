@@ -1,0 +1,190 @@
+@import '/src/scss/variables';
+
+.name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 12px;
+
+  &>div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+
+    &>p {
+      font-weight: 600;
+    }
+  }
+}
+
+.status {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 4px;
+
+  &>p {
+    font-weight: 600;
+  }
+}
+
+.bgpConf {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 12px;
+  gap: 12px;
+  border-radius: 4px;
+  background: $white;
+  margin-bottom: 12px;
+
+  .frame1 {
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+    gap: 12px;
+    justify-content: space-between;
+    width: 100%;
+
+    .summary {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 0px;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 4px;
+      flex-grow: 1;
+
+      &>div {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 0px;
+        gap: 12px;
+        width: 100%;
+
+        &>div {
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+          justify-content: flex-start;
+
+          &>p {
+            font-weight: 600;
+          }
+        }
+      }
+    }
+
+    &>button {
+      padding: 6px 24px;
+      background: $light-color02;
+      border: 1px solid $light-color06;
+      border-radius: 16px;
+      font-weight: 600;
+    }
+  }
+
+  .frame2 {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 12px;
+    width: 100%;
+    justify-content: space-between;
+
+    &>div {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 12px;
+      gap: 12px;
+      flex-grow: 1;
+      background: $light-color01;
+
+      &>div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0px;
+
+        &>p {
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .frame3 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 12px;
+    gap: 8px;
+    background: $light-color01;
+    border-radius: 4px;
+    width: 100%;
+
+    &>div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 0px;
+      gap: 20px;
+
+      &>div {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 0px;
+        gap: 8px;
+
+        &>span {
+          background: $dark-color07;
+          border-radius: 100px;
+          min-width: 32px;
+          justify-content: center;
+
+          &>div {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 2px;
+            gap: 4px;
+            
+            &>p {
+              font-weight: 600;
+              color: $white;
+            }
+          }
+        }
+
+        &>p {
+          font-weight: 600;
+          color: $dark-color06;
+        }
+
+        &>div {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          gap: 4px;
+          border-radius: 4px;
+          background-color: $light-color02;
+          padding: 2px 8px;
+
+          &>p {
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+}
