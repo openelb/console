@@ -1,0 +1,159 @@
+@import "/src/scss/variables.scss";
+
+.body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: $white;
+  box-shadow: 0px 4px 8px rgba(36, 46, 66, 0.06);
+  border-radius: 4px;
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: #F9FBFD;
+    padding: 12px;
+    gap: 12px;
+    width: 100%;
+    background-image: url(../../../assets/info-background.svg);
+
+    .itemtext {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 20px;
+    }
+
+    .button {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 6px 20px 6px 12px;
+      gap: 4px;
+      background: #FFFFFF;
+      border-radius: 100px;
+
+      &>p {
+        font-weight: 600;
+        line-height: 20px;
+        font-size: 12px;
+      }
+    }
+
+    .datagroup {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+
+      &>p {
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 28px;
+        color: #242E42;
+      }
+
+      &>div {
+        padding: 0px 4px;
+        gap: 4px;
+        background: #242E42;
+        border-radius: 2px;
+
+        &>p {
+          font-weight: 600;
+          font-size: 12px;
+          line-height: 20px;
+          color: $white;
+        }
+      }
+    }
+
+    .buttongroup {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 12px;
+
+      &>button {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        background-color: $light-color02;
+        border: 1px solid $light-color06;
+        border-radius: 16px;
+        padding: 6px 24px;
+      }
+    }
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px;
+    gap: 12px;
+    width: 100%;
+
+    &>p {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 20px;
+      color: #242E42;
+    }
+
+    &>div {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 4px;
+      width: 100%;
+
+      &>div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        flex-grow: 1;
+
+        .keytext {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 20px;
+          color: #79879C;
+        }
+
+        .valuetext {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 20px;
+          color: #242E42;
+        }
+
+        .cell {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding: 0px;
+          gap: 8px;
+
+          &>div {
+            color: $dark-color06;
+            background: $light-color03;
+            border-radius: 2px;
+            padding: 0px 4px;
+            gap: 4px;
+
+            &>p {
+              font-weight: 600;
+              font-size: 12px;
+              line-height: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

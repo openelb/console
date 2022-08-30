@@ -1,0 +1,127 @@
+@import "/src/scss/variables.scss";
+
+.body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  gap: 20px;
+
+  .status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    flex-grow: 4;
+
+    .tab {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 8px 12px;
+      gap: 12px;
+      background: #242E42;
+      border-radius: 4px;
+      align-self: stretch;
+
+      &>div {
+        filter: drop-shadow(0px 8px 16px rgba(85, 188, 138, 0.28));
+        background: $green-color03;
+        border: 1px solid #55BC8A;
+        border-radius: 4px;
+        padding: 6px 24px;
+
+        &>p {
+          font-weight: 600;
+          font-size: 12px;
+          line-height: 20px;
+          color: $white;
+        }
+      }
+    }
+
+    .stats {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      align-self: stretch;
+
+      .valuetext {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 20px;
+        color: #242E42;
+      }
+
+      .keytext {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 20px;
+        color: #79879C;
+      }
+
+      &>p {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 20px;
+        color: #242E42;
+      }
+
+      &>div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px;
+        gap: 12px;
+        align-self: stretch;
+        background: $white;
+        border-radius: 4px;
+
+        .row1 {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 12px;
+          align-self: stretch;
+          background: rgba(255, 255, 255, 0.9);
+          border-radius: 4px;
+
+          &>div {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex-grow: 1;
+          }
+        }
+
+        .row2 {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          padding: 0px;
+          gap: 12px;
+          align-self: stretch;
+
+          &>div {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            padding: 12px;
+            gap: 12px;
+            background: $light-color01;
+            border-radius: 4px;
+            flex-grow: 1;
+
+            &>div {
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+            }
+          }
+        }
+      }
+    }
+  }
+}

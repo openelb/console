@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from "react-router-dom"
 import { Icon, Tooltip } from '@kube-design/components'
 import EIPStore from '../../../stores/eip'
 import withList from '../../../components/HOCs/withList'
@@ -6,10 +7,10 @@ import Table from '../../../components/Tables/List'
 import Banner from '../../../components/Banner'
 import { ListPage } from '../../../components/HOCs/withList'
 import moment from "moment"
-import styles from "./index.module.scss"
-import done from "../../../assets/done.svg"
-import failure from "../../../assets/failure.svg"
 import { trigger } from "../../../utils/action"
+import styles from "./index.module.scss"
+import check from "../../../assets/check.svg"
+import cross from "../../../assets/cross.svg"
 
 class List extends Component {
   get routing() {
@@ -75,21 +76,24 @@ class List extends Component {
             isDefault = 'default'
           }
 
-          return (<div className={styles.cell1}>
-            <Icon name='eip-duotone' size={40} />
-            <div className={styles.nametexts}>
-              <div className={styles.name}>
-                <p>{name}</p>
-                {isDefault ? (<div>
-                  <p>{isDefault}</p>
-                </div>) : ''}
+          return (
+            <Link to={`eip/${name}`} style={{textDecoration: 'none'}}>
+              <div className={styles.cell1}>
+                <Icon name='eip-duotone' size={40} />
+                <div className={styles.nametexts}>
+                  <div className={styles.name}>
+                    <p>{name}</p>
+                    {isDefault ? (<div>
+                      <p>{isDefault}</p>
+                    </div>) : ''}
+                  </div>
+                  <div className={styles.condition}>
+                    <img src={record.disable ? cross : check} alt="" />
+                    <p>{enabled}</p>
+                  </div>
+                </div>
               </div>
-              <div className={styles.condition}>
-                <img src={record.disable ? failure : done} alt="" />
-                <p>{enabled}</p>
-              </div>
-            </div>
-          </div>)
+            </Link>)
         },
       },
       {
@@ -107,10 +111,6 @@ class List extends Component {
         isHideable: true,
         with: '18.62%',
         render: (protocol, record) => {
-          if (!protocol) {
-            protocol = 'bgp'
-          }
-
           return (<div className={styles.cell}>{protocol}
             {(protocol === 'layer2')
               ? (<Tooltip content={`interface: ${record.interface}`}>

@@ -1,0 +1,93 @@
+@import "/src/scss/variables.scss";
+
+.services {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
+
+  &>p {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 20px;
+    color: #242E42;
+  }
+
+  &>div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px;
+    gap: 12px;
+    background: $white;
+    box-shadow: 0px 4px 8px rgba(36, 46, 66, 0.06);
+    border-radius: 4px;
+    align-self: stretch;
+
+    &>div {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      align-self: stretch;
+      background: $light-color01;
+      padding: 12px;
+      gap: 8px;
+
+      &>div {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 12px;
+        gap: 20px;
+        align-self: stretch;
+        background-color: $white;
+        border: 1px solid $light-color06;
+        border-radius: 4px;
+
+        .valuetext {
+          font-weight: 600;
+          font-size: 12px;
+          line-height: 20px;
+          color: #242E42;
+        }
+
+        .keytext {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 20px;
+          color: #79879C;
+        }
+
+        .title {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 12px;
+          flex-grow: 1;
+
+          &>div {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+        }
+
+        .namespace {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          flex-grow: 1;
+        }
+
+        .ip {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          flex-grow: 1;
+        }
+      }
+    }
+  }
+}

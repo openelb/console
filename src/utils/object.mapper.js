@@ -1,5 +1,6 @@
 import {
   get,
+  isObject,
   omit,
   size,
 } from 'lodash'
@@ -34,23 +35,26 @@ const getBaseInfo = item => ({
 })
 
 const BGPMapper = item => {
-  const nodeField = Object.keys(item?.status.nodesPeerStatus)[0]
+  let nodeField
+  if (isObject(item.status.nodesPeerStatus)) {
+    nodeField = Object.keys(item.status.nodesPeerStatus)[0]
+  }
   return ({
     ...getBaseInfo(item),
     status: get(item,
-      `status.nodesPeerStatus?.${nodeField}.peerState.sessionState`, ""),
+      `status.nodesPeerStatus.${nodeField}.peerState.sessionState`, "-"),
     localAs: get(item,
-      `status.nodesPeerStatus?.${nodeField}.peerState.localAS`, "-"),
+      `status.nodesPeerStatus.${nodeField}.peerState.localAS`, "-"),
     peerAs: get(item, 'spec.conf.peerAs', ""),
     neighborAddress: get(item,
-      `status.nodesPeerStatus?.${nodeField}.peerState.neighborAddress`, ""),
+      `spec.conf.neighborAddress`, ""),
     peerType: get(item,
-      `status.nodesPeerStatus?.${nodeField}.peerState.peerType`, 0),
+      `status.nodesPeerStatus.${nodeField}.peerState.peerType`, 0),
     sendMax: get(item, 'spec.afiSafis[0].addPaths.config.sendMax', "-"),
     bgpPeerLeaf: get(item,
       'spec.nodeSelector.matchLabels["openelb.kubesphere.io/rack"]', "-"),
     description: get(item,
-      `status.nodesPeerStatus?.${nodeField}.peerState.description`, ""),
+      `status.nodesPeerStatus.${nodeField}.peerState.description`, ""),
     _originData: getOriginData(item),
   })
 }
@@ -69,12 +73,18 @@ const EIPMapper = item => ({
   ...getBaseInfo(item),
   disable: get(item, 'spec.disable', false),
   address: get(item, 'spec.address', ""),
-  protocol: get(item, 'spec.protocol', ""),
+  protocol: get(item, 'spec.protocol', "bgp"),
   poolSize: get(item, 'status.poolSize', 0),
   usage: get(item, 'status.usage', 0),
   interface: get(item, 'spec.interface', ""),
   default: get(item,
     'metadata.annotations["eip.openelb.kubesphere.io/is-default-eip"]', ""),
+  firstIP: get(item, 'status.firstIP', ""),
+  lastIP: get(item, 'status.lastIP', ""),
+  addressFamily: get(item, 'spec.addressFamily', "IPv4"),
+  occupied: get(item, 'status.occupied', false),
+  ready: get(item, 'status.ready', false),
+  used: get(item, 'status.used', []),
   _originData: getOriginData(item),
 })
 
