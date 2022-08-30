@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { Loading } from '@kube-design/components'
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import request from './utils/request'
 
@@ -18,7 +18,7 @@ const Render = (component) => {
 export default App;
 
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = createRoot(document.getElementById('root'));
 root.render(
   Render(<App />)
 );

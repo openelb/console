@@ -1,0 +1,28 @@
+.IpSelect {
+  display: flex;
+  align-items: center;
+
+  :global {
+    .select {
+      width: 140px !important;
+      margin-right: 8px;
+    }
+
+    .select-control{
+      padding: 0px;
+      padding-left: 12px;
+    }
+
+    span{
+      margin: 0px 4px;
+    }
+  }
+
+  .ipInput{
+    width: 294px !important;
+  }
+
+  .input {
+    width: 140px !important;
+  }
+}

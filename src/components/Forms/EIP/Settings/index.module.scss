@@ -1,0 +1,33 @@
+.card {
+  border: 1px solid #CCD3DB;
+  border-radius: 4px;
+  background: #FFFFFF;
+  padding: 12px 16px;
+  display: flex;
+
+  .icon {
+    margin-right: 8px;
+  }
+
+  .title {
+    font-family: 'PingFang SC';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 20px;
+    color: #242E42;
+  }
+
+  .des {
+    font-family: 'PingFang SC';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    color: #79879C;
+  }
+
+  &:nth-of-type(even) {
+    margin-top: 12px;
+  }
+}

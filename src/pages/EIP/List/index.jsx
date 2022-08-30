@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from "react-router-dom"
 import { Icon, Tooltip } from '@kube-design/components'
 import EIPStore from '../../../stores/eip'
 import withList from '../../../components/HOCs/withList'
@@ -6,10 +7,10 @@ import Table from '../../../components/Tables/List'
 import Banner from '../../../components/Banner'
 import { ListPage } from '../../../components/HOCs/withList'
 import moment from "moment"
+import { trigger } from "../../../utils/action"
 import styles from "./index.module.scss"
 import check from "../../../assets/check.svg"
 import cross from "../../../assets/cross.svg"
-import { Link } from "react-router-dom"
 
 class List extends Component {
   get routing() {
@@ -25,8 +26,30 @@ class List extends Component {
     }
   }
 
+  get itemActions() {
+    const { tableProps, store } = this.props
+
+    return [
+      ...tableProps.itemActions,
+      {
+        icon: 'pen',
+        key: 'create',
+        text: 'Edit information',
+        onClick: () => {
+          this.trigger('eip.create', {
+            store
+          })
+        }
+      }
+    ]
+  }
+
   handleCreateClick = () => {
-    console.log('create')
+    const { store } = this.props
+    
+    this.trigger('eip.create', {
+      store
+    })
   }
 
   getColumns() {
@@ -137,6 +160,7 @@ class List extends Component {
             {...tableProps}
             columns={this.getColumns()}
             onCreate={this.handleCreateClick}
+            itemActions={this.itemActions}
             searchType={'name'}
           />
         </ListPage>
@@ -145,4 +169,4 @@ class List extends Component {
   }
 }
 
-export default withList({ store: new EIPStore(), module: 'eip' })(List)
+export default withList({ store: new EIPStore(), module: 'eip' })(trigger(List))
