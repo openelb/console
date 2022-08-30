@@ -92,7 +92,6 @@ class Detail extends Component {
   }
 
   render() {
-    console.log(this.props.rootStore)
     if (this.store.isLoading && !this.store.detail.name) {
       return <Loading className="ks-page-loading" />
     }
@@ -100,7 +99,7 @@ class Detail extends Component {
     const detail = toJS(this.store.detail)
     return (
       <div className={styles.body}>
-        <Info detail={detail} routing={this.routing} />
+        <Info detail={detail} routing={this.routing} store={this.store} />
         {this.renderStatus(detail)}
       </div>
     )

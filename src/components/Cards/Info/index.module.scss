@@ -19,6 +19,12 @@
     width: 100%;
     background-image: url(../../../assets/info-background.svg);
 
+    .itemtext {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 20px;
+    }
+
     .button {
       display: flex;
       flex-direction: row;
