@@ -9,6 +9,7 @@ import moment from "moment"
 import styles from "./index.module.scss"
 import done from "../../../assets/done.svg"
 import failure from "../../../assets/failure.svg"
+import { trigger } from "../../../utils/action"
 
 class List extends Component {
   get routing() {
@@ -24,8 +25,30 @@ class List extends Component {
     }
   }
 
+  get itemActions() {
+    const { tableProps, store } = this.props
+
+    return [
+      ...tableProps.itemActions,
+      {
+        icon: 'pen',
+        key: 'create',
+        text: 'Edit information',
+        onClick: () => {
+          this.trigger('eip.create', {
+            store
+          })
+        }
+      }
+    ]
+  }
+
   handleCreateClick = () => {
-    console.log('create')
+    const { store } = this.props
+    
+    this.trigger('eip.create', {
+      store
+    })
   }
 
   getColumns() {
@@ -137,6 +160,7 @@ class List extends Component {
             {...tableProps}
             columns={this.getColumns()}
             onCreate={this.handleCreateClick}
+            itemActions={this.itemActions}
             searchType={'name'}
           />
         </ListPage>
@@ -145,4 +169,4 @@ class List extends Component {
   }
 }
 
-export default withList({ store: new EIPStore(), module: 'eip' })(List)
+export default withList({ store: new EIPStore(), module: 'eip' })(trigger(List))
