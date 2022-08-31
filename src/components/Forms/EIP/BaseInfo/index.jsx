@@ -27,9 +27,8 @@ const EipBaseInfo = observer(
                 desc={
                   "The alias can contain any characters and the maximum length is 63 characters."
                 }
-                rules={[{ required: true, message: 'Alias is required.' }]}
               >
-                <Input name="annotations['kubesphere.io/alias']" />
+                <Input name="annotations['openelb.io/alias']" />
               </Form.Item>
             </Column>
           </Columns>
@@ -42,7 +41,7 @@ const EipBaseInfo = observer(
                 }
               >
                 <TextArea
-                  name="metadata.annotations['kubesphere.io/description']"
+                  name="metadata.annotations['openelb.io/description']"
                   maxLength={256}
                 />
               </Form.Item>
