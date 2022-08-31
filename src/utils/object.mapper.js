@@ -54,7 +54,7 @@ const BGPMapper = item => {
     bgpPeerLeaf: get(item,
       'spec.nodeSelector.matchLabels["openelb.kubesphere.io/rack"]', "-"),
     description: get(item,
-      `status.nodesPeerStatus.${nodeField}.peerState.description`, ""),
+      'metadata.annotations["openelb.io/description"]', ""),
     _originData: getOriginData(item),
   })
 }

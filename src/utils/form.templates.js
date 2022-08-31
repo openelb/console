@@ -1,3 +1,38 @@
+const bgpFormTemplate = () => ({
+  apiVersion: 'network.kubesphere.io/v1alpha2',
+  kind: 'BgpPeer',
+  metadata: {
+    name: '',
+  },
+  spec: {
+    conf: {
+      neighborAddress: '',
+      localAs: '',
+    },
+    afiSafis: [
+      {
+        conf: {
+          family: {
+            afi: "AFI_IP",
+            safi: "SAFI_UNICAST"
+          },
+          enabled: true,
+        },
+        addPaths: {
+          config: {
+            sendMax: 10,
+          }
+        },
+      }
+    ],
+    nodeSelector: {
+      matchLabels: {
+        "openelb.kubesphere.io/rack": "",
+      }
+    },
+  }
+})
+
 const eipFormTemplate = () => ({
   apiVersion: 'network.kubesphere.io/v1alpha2',
   kind: 'Eip',
@@ -16,6 +51,7 @@ const eipFormTemplate = () => ({
 })
 
 const mapperTemplate = {
+  bgp: bgpFormTemplate,
   eip: eipFormTemplate
 }
 

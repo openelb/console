@@ -12,6 +12,7 @@ import idle from '../../../assets/idle-statusdot.svg'
 import opensent from '../../../assets/opensent-confirm-statusdot.svg'
 import { Icon } from "@kube-design/components"
 import { toJS } from "mobx"
+import { trigger } from "../../../utils/action"
 
 class List extends Component {
   componentDidMount() {
@@ -42,7 +43,11 @@ class List extends Component {
   }
 
   handleCreateClick = () => {
-    console.log('Do you want ro create a BGP? Do it.')
+    const { store } = this.props
+    
+    this.trigger('bgp.create', {
+      store
+    })
   }
 
   getColumns() {
@@ -262,4 +267,4 @@ class List extends Component {
   }
 }
 
-export default withList({ store: new BGPStore(), module: 'bgp' })(List)
+export default withList({ store: new BGPStore(), module: 'bgp' })(trigger(List))
