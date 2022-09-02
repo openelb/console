@@ -7,7 +7,7 @@ const bgpFormTemplate = () => ({
   spec: {
     conf: {
       neighborAddress: '',
-      localAs: '',
+      localAs: 50001,
     },
     afiSafis: [
       {
@@ -33,6 +33,19 @@ const bgpFormTemplate = () => ({
   }
 })
 
+const bgpconfFormTemplate = () => ({
+  apiVersion: 'network.kubesphere.io/v1alpha2',
+  kind: 'BgpConf',
+  metadata: {
+    name: 'default',
+  },
+  spec: {
+    as: 50000,
+    listenPort: 17900,
+    routerId: '',
+  }
+})
+
 const eipFormTemplate = () => ({
   apiVersion: 'network.kubesphere.io/v1alpha2',
   kind: 'Eip',
@@ -52,6 +65,7 @@ const eipFormTemplate = () => ({
 
 const mapperTemplate = {
   bgp: bgpFormTemplate,
+  bgpconf: bgpconfFormTemplate,
   eip: eipFormTemplate
 }
 

@@ -17,7 +17,7 @@ class BgpPeerSettings extends React.Component {
               label="Peer AS"
               rules={[{ required: true, message: 'Peer AS is required.' }]}
             >
-              <Input name="spec.conf.peerAs" />
+              <Input name="spec.conf.peerAs" type="number" />
             </Form.Item>
           </Column>
           <Column>
@@ -35,7 +35,7 @@ class BgpPeerSettings extends React.Component {
               label="SendMax"
               desc={SendMaxDesc}
             >
-              <Input name="spec.afiSafis[0].addPaths.config.sendMax" />
+              <Input name="spec.afiSafis[0].addPaths.config.sendMax" type="number" />
             </Form.Item>
           </Column>
           <Column>

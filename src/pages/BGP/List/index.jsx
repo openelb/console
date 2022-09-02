@@ -13,6 +13,7 @@ import opensent from '../../../assets/opensent-confirm-statusdot.svg'
 import { Icon } from "@kube-design/components"
 import { toJS } from "mobx"
 import { trigger } from "../../../utils/action"
+import { isEmpty } from "lodash"
 
 class List extends Component {
   componentDidMount() {
@@ -44,8 +45,16 @@ class List extends Component {
 
   handleCreateClick = () => {
     const { store } = this.props
-    
+
     this.trigger('bgp.create', {
+      store
+    })
+  }
+
+  handleCreateConfClick = () => {
+    const { store } = this.props
+
+    this.trigger('bgpconf.create', {
       store
     })
   }
@@ -177,73 +186,91 @@ class List extends Component {
     ]
   }
 
+  renderBgpConfEmpty() {
+    return (<div className={styles.empty}>
+      <div className={styles.info}>
+        <Icon name="gateway-duotone" size={40} />
+        <div>
+          <p>BgpConf not Created</p>
+          Create a BgpConf object to configure local BGP properties on OpenELB.
+        </div>
+      </div>
+      <div className={styles.button}>
+        <button onClick={this.handleCreateConfClick}>
+          Create
+        </button>
+      </div>
+    </div>)
+  }
+
   renderBgpConf() {
     const conf = toJS(this.props.store.conf)
 
-    return (<div className={styles.bgpConf}>
-      <div className={styles.frame1}>
-        <div className={styles.summary}>
-          <Icon name="gateway-duotone" size={40} />
+    return (isEmpty(conf) ? this.renderBgpConfEmpty() :
+      (<div className={styles.bgpConf}>
+        <div className={styles.frame1}>
+          <div className={styles.summary}>
+            <Icon name="gateway-duotone" size={40} />
+            <div>
+              <div>
+                <p>{conf.name}</p>
+                BgpConf
+              </div>
+              <div style={{ flexGrow: 2 }}>
+                <p>{moment(new Date(conf.createTime))
+                  .format('YYYY-MM-DD hh:mm:ss') || '-'}</p>
+                Creation Time
+              </div>
+            </div>
+          </div>
+          <button>
+            Edit BgpConf
+          </button>
+        </div>
+
+        <div className={styles.frame2}>
+          <div>
+            <Icon name="duotone" size={40} />
+            <div>
+              <p>{conf.as}</p>
+              ASN
+            </div>
+          </div>
+          <div>
+            <Icon name="network-port" size={40} />
+            <div>
+              <p>{conf.listenPort}</p>
+              ListenPort
+            </div>
+          </div>
+          <div>
+            <Icon name="lab-router" size={40} />
+            <div>
+              <p>{conf.routerID}</p>
+              RouterID
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.frame3}>
           <div>
             <div>
-              <p>{conf.name}</p>
-              BgpConf
+              <span>
+                <div><p>{conf.nodeCount}</p></div>
+              </span>
+              <p>Running Nodes:</p>
             </div>
-            <div style={{ flexGrow: 2 }}>
-              <p>{moment(new Date(conf.createTime))
-                .format('YYYY-MM-DD hh:mm:ss') || '-'}</p>
-              Creation Time
+            <div>
+              {conf.nodes?.map((node, index) => {
+                return (<div key={index}>
+                  <Icon name="nodes" size={40} />
+                  <p>{node}</p>
+                </div>)
+              })}
             </div>
           </div>
         </div>
-        <button>
-          Edit BgpConf
-        </button>
-      </div>
-
-      <div className={styles.frame2}>
-        <div>
-          <Icon name="duotone" size={40} />
-          <div>
-            <p>{conf.as}</p>
-            ASN
-          </div>
-        </div>
-        <div>
-          <Icon name="network-port" size={40} />
-          <div>
-            <p>{conf.listenPort}</p>
-            ListenPort
-          </div>
-        </div>
-        <div>
-          <Icon name="lab-router" size={40} />
-          <div>
-            <p>{conf.routerID}</p>
-            RouterID
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.frame3}>
-        <div>
-          <div>
-            <span>
-              <div><p>{conf.nodeCount}</p></div>
-            </span>
-            <p>Running Nodes:</p>
-          </div>
-          <div>
-            {conf.nodes?.map((node, index) => {
-              return (<div key={index}>
-                <Icon name="nodes" size={40} />
-                <p>{node}</p>
-              </div>)
-            })}
-          </div>
-        </div>
-      </div>
-    </div>)
+      </div>))
   }
 
   render() {

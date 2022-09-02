@@ -72,6 +72,9 @@
           flex-direction: column;
           flex-grow: 1;
           justify-content: flex-start;
+          font-size: 12px;
+          line-height: 20px;
+          font-family: 'PingFang SC';
 
           &>p {
             font-weight: 600;
@@ -85,7 +88,13 @@
       background: $light-color02;
       border: 1px solid $light-color06;
       border-radius: 16px;
-      font-weight: 600;
+
+      &>p {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 20px;
+        font-family: 'PingFang SC';
+      }
     }
   }
 
@@ -112,6 +121,9 @@
         flex-direction: column;
         align-items: flex-start;
         padding: 0px;
+        font-size: 12px;
+        line-height: 20px;
+        font-family: 'PingFang SC';
 
         &>p {
           font-weight: 600;
@@ -157,7 +169,10 @@
             align-items: center;
             padding: 2px;
             gap: 4px;
-            
+            font-size: 12px;
+            line-height: 20px;
+            font-family: 'PingFang SC';
+
             &>p {
               font-weight: 600;
               color: $white;
@@ -168,6 +183,9 @@
         &>p {
           font-weight: 600;
           color: $dark-color06;
+          font-size: 12px;
+          line-height: 20px;
+          font-family: 'PingFang SC';
         }
 
         &>div {
@@ -179,12 +197,72 @@
           border-radius: 4px;
           background-color: $light-color02;
           padding: 2px 8px;
-
-          &>p {
-            font-weight: 600;
-          }
+          font-weight: 600;
+          font-size: 12px;
+          line-height: 20px;
+          font-family: 'PingFang SC';
         }
       }
     }
+  }
+}
+
+.empty {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 12px;
+  gap: 12px;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 8px rgba(36, 46, 66, 0.06);
+  border-radius: 4px;
+  gap: 20px;
+  align-self: stretch;
+  margin-bottom: 12px;
+
+  .info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    flex-grow: 1;
+
+    &>div {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: 12px;
+      line-height: 20px;
+      font-family: 'PingFang SC';
+      color: #79879C;
+
+      &>p {
+        font-weight: 600;
+        color: #242E42;
+      }
+    }
+  }
+
+  .button {
+    filter: drop-shadow(0px 8px 16px rgba(36, 46, 66, 0.28));
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2S ease-in-out;
+    margin: auto 6px;
+
+    &>button {
+      padding: 4px 26px;
+      background: $dark-color07;
+      border-radius: 18px;
+      font-family: 'PingFang SC';
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 20px;
+      color: #FFFFFF;
+    }
+  }
+  .button:hover {
+    filter:none;
   }
 }

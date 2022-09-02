@@ -29,11 +29,13 @@ export default class CodeMode extends React.Component {
     formTemplate: PropTypes.object,
     onOk: PropTypes.func,
     isSubmitting: PropTypes.bool,
+    hideFooter: PropTypes.bool,
   }
 
   static defaultProps = {
     onOk() {},
     isSubmitting: false,
+    hideFooter: false,
   }
 
   constructor(props) {
@@ -52,13 +54,13 @@ export default class CodeMode extends React.Component {
   }
 
   render() {
-    const { formTemplate, onCancel, isSubmitting } = this.props
+    const { formTemplate, onCancel, isSubmitting, hideFooter } = this.props
     return (
       <div>
         <div className={styles.wrapper}>
           <EditMode ref={this.editor} value={formTemplate} />
         </div>
-        <div className={styles.footer}>
+        {!hideFooter? <div className={styles.footer}>
           <Button onClick={onCancel}>{'Cancel'}</Button>
           <Button
             type="control"
@@ -68,7 +70,7 @@ export default class CodeMode extends React.Component {
           >
             {'Create'}
           </Button>
-        </div>
+        </div> : <></>}
       </div>
     )
   }
