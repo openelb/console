@@ -1,6 +1,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Form, Columns, Column, Input } from '@kube-design/components'
+import NumberInput from "../../../NumberInput"
 
 const SendMaxDesc = "Maximum number of equivalent routes that OpenELB can send to the peer BGP router for Equal-Cost Multi-Path (ECMP) routing. The default value is 10."
 
@@ -17,7 +18,7 @@ class BgpPeerSettings extends React.Component {
               label="Peer AS"
               rules={[{ required: true, message: 'Peer AS is required.' }]}
             >
-              <Input name="spec.conf.peerAs" type="number" />
+              <NumberInput name="spec.conf.peerAs" min={0} />
             </Form.Item>
           </Column>
           <Column>
@@ -35,7 +36,7 @@ class BgpPeerSettings extends React.Component {
               label="SendMax"
               desc={SendMaxDesc}
             >
-              <Input name="spec.afiSafis[0].addPaths.config.sendMax" type="number" />
+              <NumberInput name="spec.afiSafis[0].addPaths.config.sendMax" min={0} />
             </Form.Item>
           </Column>
           <Column>

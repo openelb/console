@@ -6,8 +6,8 @@ const bgpFormTemplate = () => ({
   },
   spec: {
     conf: {
+      peerAs: 50001,
       neighborAddress: '',
-      localAs: 50001,
     },
     afiSafis: [
       {

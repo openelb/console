@@ -8,6 +8,7 @@ import Code from '../Create/Code'
 
 import styles from './index.module.scss'
 import { observer } from "mobx-react"
+import NumberInput from "../../NumberInput"
 
 class CreateModal extends React.Component {
   static propTypes = {
@@ -110,8 +111,7 @@ class CreateModal extends React.Component {
                   label="Name"
                   desc="OpenELB recognizes only the name default. BgpConf objects with other names will be ignored."
                 >
-                  <Input name="metadata.name"
-                    style={{ backgroundColor: "#EFF4F9" }} />
+                  <Input name="metadata.name" disabled />
                 </Form.Item>
               </Column>
               <Column>
@@ -120,7 +120,7 @@ class CreateModal extends React.Component {
                   desc="Local ASN, which must be different from the value of spec:conf:peerAS in the BgpPeer configuration."
                   rules={[{ required: true, message: 'ASN is required.' }]}
                 >
-                  <Input name="spec.as" type="number" />
+                  <NumberInput name="spec.as" min={0} />
                 </Form.Item>
               </Column>
             </Columns>
@@ -131,7 +131,7 @@ class CreateModal extends React.Component {
                   desc="The default value is 179 (default BGP port number). If other components (such as Calico) in the Kubernetes cluster also use BGP and port 179, you must set a different value to avoid the conflict."
                   rules={[{ required: true, message: 'ListenPort is required.' }]}
                 >
-                  <Input name="spec.listenPort" type="number" />
+                  <NumberInput name="spec.listenPort" min={0} />
                 </Form.Item>
               </Column>
               <Column>
