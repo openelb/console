@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openelb-nginx-conf
+data:
+  default.conf: | -
+    server {
+      listen       8088;
+      listen  [::]:8088;
+      server_name  localhost;
+  
+      add_header Access-Control-Allow-Origin *;
+      add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS';
+      add_header Access-Control-Allow-Headers 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization';
+  
+      if ($request_method = 'OPTIONS') {
+          return 204;
+      }
+  
+      root /openelb;
+  
+      location /apis {
+          proxy_pass http://server.domain:port;
+          proxy_connect_timeout 600;
+          proxy_read_timeout 600;
+      }
+  
+      location / {
+          try_files $uri $uri/ @router;
+          index  index.html index.htm;
+      }
+  
+      location @router {
+          rewrite ^.*$ /index.html last;
+      }
+    }
