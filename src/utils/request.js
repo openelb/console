@@ -94,8 +94,8 @@ function createURL(path) {
     return path
   }
 
-  // If we use nginx to proxy this 4001 port, we should delete the prefix 'http://localhost:4001'
-  return `http://localhost:4001/${path.trimLeft('/')}`
+  // the back end service path
+  return `/${path.trimLeft('/')}`
 }
 
 /**
