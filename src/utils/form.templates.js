@@ -57,7 +57,7 @@ const eipFormTemplate = () => ({
   },
   spec: {
     address: "",
-    protocol: '',
+    protocol: 'bgp',
     interface: '',
     disable: false,
   }

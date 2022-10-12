@@ -187,7 +187,7 @@ class BaseStore {
     return this.submitting(request.put(this.getDetailUrl(params), newObject))
   }
 
-  async patch(params, newObject) {
+  patch(params, newObject) {
     return this.submitting(request.patch(this.getDetailUrl(params), newObject))
   }
 

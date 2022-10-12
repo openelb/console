@@ -25,11 +25,21 @@ class BGPStore extends Base {
 
     async getConf() {
         this.isLoading = true
+
         const result = await request.get(this.getConfUrl)
-        const conf = {...this.confMapper(result), Kind: 'BgpConf'}
+        const conf = { ...this.confMapper(result), Kind: 'BgpConf' }
+        
         this.conf = conf
         this.isLoading = false
         return conf
+    }
+
+    createConf(data, params = {}) {
+        return this.submitting(request.post(this.getConfUrl, data))
+    }
+
+    async patchConf(newObject) {
+        return this.submitting(request.patch(this.getConfUrl, newObject))
     }
 }
 

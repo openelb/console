@@ -1,0 +1,40 @@
+@import '/src/scss/variables';
+
+.modalBody {
+  padding: 0;
+}
+
+.body {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 2px 12px;
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px 2px;
+
+    :global {
+      .h6 {
+        font-size: $size-small;
+        font-weight: bold;
+        line-height: 1.67;
+        font-family: 'PingFang SC';
+      }
+
+      .p {
+        font-size: $size-small;
+        line-height: 1.67;
+        font-family: 'PingFang SC';
+        color: $second-text-color;
+      }
+    }
+  }
+}
+
+.footer {
+  padding: 12px 20px;
+  background-color: $bg-color;
+  text-align: right;
+}

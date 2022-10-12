@@ -3,12 +3,11 @@ import { observer } from 'mobx-react'
 import { Form, Columns, Column, Input } from '@kube-design/components'
 import NumberInput from "../../../NumberInput"
 
-const SendMaxDesc = "Maximum number of equivalent routes that OpenELB can send to the peer BGP router for Equal-Cost Multi-Path (ECMP) routing. The default value is 10."
-
 class BgpPeerSettings extends React.Component {
 
   render() {
     const { formRef, formTemplate } = this.props
+    const SendMaxDesc = "Maximum number of equivalent routes that OpenELB can send to the peer BGP router for Equal-Cost Multi-Path (ECMP) routing. The default value is 10."
 
     return (
       <Form data={formTemplate} ref={formRef}>

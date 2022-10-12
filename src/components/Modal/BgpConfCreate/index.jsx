@@ -1,14 +1,15 @@
-import { get, isFunction, cloneDeep, isArray, omit } from 'lodash'
+import { get, isFunction, cloneDeep, isArray, omit, isEmpty } from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Columns, Column, Input } from '@kube-design/components'
+import { Button } from '@kube-design/components'
 import Modal from '../../Base/Modal'
 import Switch from '../../Base/Switch'
 import Code from '../Create/Code'
 
 import styles from './index.module.scss'
 import { observer } from "mobx-react"
-import NumberInput from "../../NumberInput"
+import { toJS } from "mobx"
+import copy from 'fast-copy'
 
 class CreateModal extends React.Component {
   static propTypes = {
@@ -19,11 +20,14 @@ class CreateModal extends React.Component {
     store: PropTypes.object,
     formTemplate: PropTypes.object,
     visible: PropTypes.bool,
-    okBtnText: PropTypes.string, // not requried
+    okBtnText: PropTypes.string,
     onOk: PropTypes.func,
     onCancel: PropTypes.func,
     noCodeEdit: PropTypes.bool,
     isSubmitting: PropTypes.bool,
+    formModal: PropTypes.func,
+    create: PropTypes.bool,
+    detail: PropTypes.object,
   }
 
   static defaultProps = {
@@ -32,13 +36,19 @@ class CreateModal extends React.Component {
     isSubmitting: false,
     onOk() { },
     onCancel() { },
+    detail: {}
   }
 
   constructor(props) {
     super(props)
 
+    let detail
+    if (!isEmpty(props.detail)) {
+      detail = copy(toJS(props.detail))
+    }
     this.state = {
-      formTemplate: cloneDeep(props.formTemplate),
+      formTemplate: props.create ? cloneDeep(props.formTemplate) :
+        { ...detail._originData, ...detail._statusData },
       isCodeMode: props.onlyCode || false,
     }
 
@@ -48,10 +58,16 @@ class CreateModal extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.visible !== prevProps.visible) {
+      let detail
+      if (!isEmpty(detail)) {
+        detail = copy(toJS(detail))
+      }
+
       if (this.props.visible) {
         this.setState({
           isCodeMode: this.props.onlyCode || false,
-          formTemplate: cloneDeep(this.props.formTemplate),
+          formTemplate: this.props.create ? cloneDeep(this.props.formTemplate) :
+            { ...detail._originData, ...detail._statusData },
         })
       }
     }
@@ -89,68 +105,49 @@ class CreateModal extends React.Component {
     })
   }
 
+  handleCreate = () => {
+    const { onOk } = this.props
+    const { formTemplate, isCodeMode } = this.state
+
+    if (isCodeMode && isFunction(get(this, 'codeRef.current.getData'))) {
+      onOk(this.codeRef.current.getData())
+    } else {
+      onOk(formTemplate)
+    }
+  }
+
+  handleOk = () => {
+    const { onOk } = this.props
+    const { formTemplate, isCodeMode } = this.state
+
+    if (isCodeMode && isFunction(get(this, 'codeRef.current.getData'))) {
+      onOk(this.codeRef.current.getData())
+    } else {
+      onOk(formTemplate)
+    }
+  }
+
   handleCode = data => {
     const { onOk } = this.props
-    onOk(this.getFormDataFromCode(data))
+    onOk(data)
   }
 
   renderForms() {
     const { formTemplate } = this.state
+    const contentWidth = this.props.contentWidth
+    const FormModal = this.props.formModal
 
     return (
       <div className={styles.contentWrapper}>
-        <div className={styles.content}>
-          <Form
-            {...this.props}
-            ref={this.formRef}
-            data={formTemplate}
-          >
-            <Columns>
-              <Column>
-                <Form.Item
-                  label="Name"
-                  desc="OpenELB recognizes only the name default. BgpConf objects with other names will be ignored."
-                >
-                  <Input name="metadata.name" disabled />
-                </Form.Item>
-              </Column>
-              <Column>
-                <Form.Item
-                  label="ASN"
-                  desc="Local ASN, which must be different from the value of spec:conf:peerAS in the BgpPeer configuration."
-                  rules={[{ required: true, message: 'ASN is required.' }]}
-                >
-                  <NumberInput name="spec.as" min={0} />
-                </Form.Item>
-              </Column>
-            </Columns>
-            <Columns>
-              <Column>
-                <Form.Item
-                  label="ListenPort"
-                  desc="The default value is 179 (default BGP port number). If other components (such as Calico) in the Kubernetes cluster also use BGP and port 179, you must set a different value to avoid the conflict."
-                  rules={[{ required: true, message: 'ListenPort is required.' }]}
-                >
-                  <NumberInput name="spec.listenPort" min={0} />
-                </Form.Item>
-              </Column>
-              <Column>
-                <Form.Item
-                  label="RouterID"
-                  desc="Local router ID, which is usually set to the IP address of the master NIC of the Kubernetes master node. If this field is not specified, the first IP address of the node where openelb-manager is located will be used."
-                >
-                  <Input name="spec.routerId" />
-                </Form.Item>
-              </Column>
-            </Columns>
-          </Form>
+        <div className={styles.content} style={{ width: contentWidth || 920 }}>
+          <FormModal formRef={this.formRef} formTemplate={formTemplate} />
         </div>
       </div>
     )
   }
 
   renderCodeEditor() {
-    const { onCancel, isSubmitting } = this.props
+    const { onCancel, isSubmitting, okBtnText } = this.props
     const { formTemplate } = this.state
     return (
       <Code
@@ -159,7 +156,8 @@ class CreateModal extends React.Component {
         onOk={this.handleCode}
         onCancel={onCancel}
         isSubmitting={isSubmitting}
-        hideFooter={true}
+        okText={okBtnText}
+        hideFooter
       />
     )
   }
@@ -183,10 +181,11 @@ class CreateModal extends React.Component {
   }
 
   render() {
-    const { name, width, visible, onCancel, noCodeEdit, ...rest } = this.props
+    const { name, width, isSubmitting, visible, onCancel, noCodeEdit,
+      okBtnText, create, ...rest } = this.props
     const { isCodeMode } = this.state
 
-    const title = this.props.title || `Create ${name}`
+    const title = this.props.title || create ? `Create ${name}` : `Edit ${name}`
 
     return (
       <Modal
@@ -195,14 +194,24 @@ class CreateModal extends React.Component {
         bodyClassName={styles.body}
         onCancel={onCancel}
         visible={visible}
-        {...rest}
         operations={this.renderOperations()}
-        okText="Create"
-        footerClassName={styles.footer}
+        hideFooter
+        {...rest}
       >
         {!noCodeEdit && isCodeMode
           ? this.renderCodeEditor()
           : this.renderForms()}
+        {<div className={styles.footer}>
+          <Button onClick={onCancel}>{'Cancel'}</Button>
+          <Button
+            type="control"
+            onClick={create ? this.handleCreate : this.handleOk}
+            loading={isSubmitting}
+            disabled={isSubmitting}
+          >
+            {okBtnText || create ? 'Create' : 'OK'}
+          </Button>
+        </div>}
       </Modal>
     )
   }

@@ -10,7 +10,7 @@ import connect from '../../../assets/connect-active-statusdot.svg'
 import established from '../../../assets/established-statusdot.svg'
 import idle from '../../../assets/idle-statusdot.svg'
 import opensent from '../../../assets/opensent-confirm-statusdot.svg'
-import { Icon } from "@kube-design/components"
+import { Button, Icon } from "@kube-design/components"
 import { toJS } from "mobx"
 import { trigger } from "../../../utils/action"
 import { isEmpty } from "lodash"
@@ -22,6 +22,14 @@ class List extends Component {
 
   get routing() {
     return this.props.rootStore.routing
+  }
+
+  get store() {
+    return this.props.store
+  }
+
+  get bgpConf() {
+    return toJS(this.store.conf)
   }
 
   get BannerProps() {
@@ -43,19 +51,61 @@ class List extends Component {
     }
   }
 
+  get itemActions() {
+    const [editInfoAction, deleteAction] = this.props.tableProps.itemActions
+
+    return [
+      editInfoAction,
+      {
+        key: 'yaml',
+        icon: 'pen',
+        text: 'Edit YAML',
+        action: 'editYAML',
+        onClick: item =>
+          this.trigger('bgp.yaml.edit', {
+            detail: item,
+            success: this.routing.query,
+            store: this.store,
+          }),
+      },
+      {
+        key: 'settings',
+        icon: 'gateway-duotone',
+        text: 'Edit BgpPeer Setting',
+        action: 'editSetting',
+        onClick: item =>
+          this.trigger('bgp.settings.edit', {
+            detail: item,
+            success: this.routing.query,
+            store: this.store,
+          }),
+      },
+      deleteAction,
+    ]
+  }
+
   handleCreateClick = () => {
-    const { store } = this.props
 
     this.trigger('bgp.create', {
-      store
+      store: this.store,
+      success: this.routing.query,
     })
   }
 
   handleCreateConfClick = () => {
-    const { store } = this.props
 
     this.trigger('bgpconf.create', {
-      store
+      store: this.store,
+      success: this.routing.query,
+    })
+  }
+
+  handleEditConfClick = () => {
+
+    this.trigger('bgpconf.edit', {
+      store: this.store,
+      detail: this.bgpConf,
+      success: this.routing.query,
     })
   }
 
@@ -195,16 +245,17 @@ class List extends Component {
           Create a BgpConf object to configure local BGP properties on OpenELB.
         </div>
       </div>
-      <div className={styles.button}>
-        <button onClick={this.handleCreateConfClick}>
-          Create
-        </button>
-      </div>
+      <Button
+        type="control"
+        onClick={this.handleCreateConfClick}
+      >
+        Create
+      </Button>
     </div>)
   }
 
   renderBgpConf() {
-    const conf = toJS(this.props.store.conf)
+    const conf = this.bgpConf
 
     return (isEmpty(conf) ? this.renderBgpConfEmpty() :
       (<div className={styles.bgpConf}>
@@ -223,9 +274,10 @@ class List extends Component {
               </div>
             </div>
           </div>
-          <button>
-            Edit BgpConf
-          </button>
+          <Button
+            onClick={this.handleEditConfClick}>
+            <p>Edit BgpConf</p>
+          </Button>
         </div>
 
         <div className={styles.frame2}>
@@ -283,8 +335,8 @@ class List extends Component {
         <ListPage {...this.props}>
           <Table
             {...tableProps}
-            columns={this.getColumns()}
             itemActions={this.itemActions}
+            columns={this.getColumns()}
             onCreate={this.handleCreateClick}
             searchType={'name'}
           />
@@ -294,4 +346,4 @@ class List extends Component {
   }
 }
 
-export default withList({ store: new BGPStore(), module: 'bgp' })(trigger(List))
+export default withList({ store: new BGPStore(), module: 'bgp', name: 'BGP' })(trigger(List))
