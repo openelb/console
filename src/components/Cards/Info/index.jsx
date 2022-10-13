@@ -1,37 +1,68 @@
 import { Component } from "react"
 import moment from "moment"
-import { Dropdown, Icon, Menu } from "@kube-design/components"
+import { Button, Dropdown, Icon, Menu } from "@kube-design/components"
 import styles from "./index.module.scss"
+import { inject } from "mobx-react"
+import { trigger } from "../../../utils/action"
 
 class Info extends Component {
   get detail() {
     return this.props.detail
   }
 
+  get routing() {
+    return this.props.rootStore.routing
+  }
+
+  get name() {
+    return "EIP"
+  }
+
+  get eip() {
+    return this.props.eip
+  }
+
+  get store() {
+    return this.props.store
+  }
+
+  async fetchData() {
+    await this.store.fetchDetail({ name: this.eip })
+  }
+
   handleBackButtonClick() {
-    this.props.routing.push("/eip")
+    this.routing.push("/eip")
   }
 
   handleMoreMenuItemClick(e, key, value, isEnabled) {
     switch (key) {
       case "disable":
-        this.props.store.patch({ name: this.detail.name },
-          {
-            spec: {
-              disable: isEnabled
-            }
-          })
-        window.setTimeout(() => this.props.store.fetchDetail({
-          name: this.detail.name
-        }), 100)
+        this.trigger('eip.disable', {
+          type: this.name,
+          detail: this.detail,
+          success: this.fetchData.bind(this),
+          store: this.store
+        })
         break
       case "delete":
-        this.props.store.delete({ name: this.detail.name })
-        window.setTimeout(() => this.props.routing.push("/eip"), 100)
+        this.trigger('resource.delete', {
+          type: this.name,
+          resource: this.eip,
+          detail: this.detail,
+          store: this.store,
+          success: () => this.routing.push("/eip"),
+        })
         break
       default:
         break
     }
+  }
+
+  handleYAMLButtonClick() {
+    this.trigger('eip.yaml.view', {
+      detail: this.detail,
+      store: this.store,
+    })
   }
 
   detailsKeys() {
@@ -103,11 +134,11 @@ class Info extends Component {
         </div>
 
         <div className={styles.buttongroup}>
-          <button>View YAML</button>
+          <Button onClick={this.handleYAMLButtonClick.bind(this)}>View YAML</Button>
           <Dropdown theme="dark" content={this.renderMoreMenu.bind(this)} >
-            <button>
-              <p>More</p>
-              <Icon name="caret-down" size={16} /></button>
+            <Button>
+              More
+              <Icon name="caret-down" size={16} /></Button>
           </Dropdown>
         </div>
       </div>
@@ -136,4 +167,4 @@ class Info extends Component {
   }
 }
 
-export default Info
+export default inject("rootStore")(trigger(Info))

@@ -1,11 +1,10 @@
 import { Loading, Tooltip } from "@kube-design/components"
 import { toJS } from "mobx"
-import { inject, observer } from "mobx-react"
+import { observer } from "mobx-react"
 import { Component } from "react"
 import Info from "../../../components/Cards/Info"
 import Service from "../../../components/Lists/Service"
 import EipStore from "../../../stores/eip"
-import { trigger } from "../../../utils/action"
 import checkedApps from "../../../assets/checked-apps.svg"
 import checkedCircleGraph from "../../../assets/checked-circle-graph.svg"
 import checkedEipDuotone from "../../../assets/checked-eip-duotone.svg"
@@ -99,11 +98,11 @@ class Detail extends Component {
     const detail = toJS(this.store.detail)
     return (
       <div className={styles.body}>
-        <Info detail={detail} routing={this.routing} store={this.store} />
+        <Info detail={detail} store={this.store} eip={this.eip} />
         {this.renderStatus(detail)}
       </div>
     )
   }
 }
 
-export default inject("rootStore")(observer(trigger(Detail)))
+export default observer(Detail)

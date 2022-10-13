@@ -78,19 +78,6 @@
       display: flex;
       flex-direction: row;
       align-items: flex-start;
-      gap: 12px;
-
-      &>button {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 4px;
-        background-color: $light-color02;
-        border: 1px solid $light-color06;
-        border-radius: 16px;
-        padding: 6px 24px;
-      }
     }
   }
 
