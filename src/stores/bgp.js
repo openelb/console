@@ -11,7 +11,9 @@ class BGPStore extends Base {
         super(module)
         makeObservable(this, {
             conf: observable,
-            getConf: action
+            getConf: action,
+            createConf: action,
+            patchConf: action,
         })
     }
 

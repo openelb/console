@@ -67,7 +67,7 @@ const BGPConfMapper = item => ({
   listenPort: get(item, 'spec.listenPort', "-"),
   routerID: get(item, 'spec.routerId', ""),
   nodeCount: item.status ? size(item.status.nodesConfStatus, 0) : 0,
-  nodes: item.status ? Object.keys(item.status.nodesConfStatus) : [],
+  nodes: item.status && item.status.nodesConfStatus ? Object.keys(item.status.nodesConfStatus) : [],
   _originData: getOriginData(item),
   _statusData: pick(item, ['status'])
 })

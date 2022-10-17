@@ -11,7 +11,7 @@ const bgpFormTemplate = () => ({
     },
     afiSafis: [
       {
-        conf: {
+        config: {
           family: {
             afi: "AFI_IP",
             safi: "SAFI_UNICAST"

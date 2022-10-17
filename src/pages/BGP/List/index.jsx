@@ -96,7 +96,7 @@ class List extends Component {
 
     this.trigger('bgpconf.create', {
       store: this.store,
-      success: this.routing.query,
+      success: () => this.store.getConf(),
     })
   }
 
@@ -105,7 +105,7 @@ class List extends Component {
     this.trigger('bgpconf.edit', {
       store: this.store,
       detail: this.bgpConf,
-      success: this.routing.query,
+      success: () => this.store.getConf(),
     })
   }
 
