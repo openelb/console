@@ -1,0 +1,46 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixins';
+
+.body {
+  overflow: hidden;
+  max-height: none;
+  padding: 0;
+}
+
+.switch {
+  position: absolute !important;
+  top: 50%;
+  right: 72px;
+  transform: translateY(-50%);
+  background-color: $light-color04;
+}
+
+.close {
+  position: absolute;
+  @include vertical-center;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  padding: 6px;
+  border-radius: $border-radius;
+  background-color: #242e42;
+  cursor: pointer;
+}
+
+.contentWrapper {
+  min-height: 500px;
+  max-height: calc(100vh - 222px);
+  overflow-y: auto;
+}
+
+.content {
+  width: 920px;
+  margin: 0 auto;
+  padding: 20px 0 48px 0;
+}
+
+.footer {
+  padding: 12px 20px;
+  background-color: $bg-color;
+  text-align: right;
+}

@@ -2,8 +2,8 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { Form, Columns, Column, Input, TextArea } from '@kube-design/components'
 
-const EipBaseInfo = observer(
-  class EipBaseInfo extends React.Component {
+const BgpPeerBaseInfo = observer(
+  class BgpPeerBaseInfo extends React.Component {
     render() {
       const { formTemplate, formRef } = this.props
 
@@ -53,4 +53,4 @@ const EipBaseInfo = observer(
   }
 )
 
-export default EipBaseInfo
+export default BgpPeerBaseInfo

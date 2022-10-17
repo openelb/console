@@ -20,6 +20,7 @@
     background-image: url(../../../assets/info-background.svg);
 
     .itemtext {
+      font-family: 'PingFang SC';
       font-weight: 600;
       font-size: 12px;
       line-height: 20px;
@@ -36,6 +37,7 @@
       border-radius: 100px;
 
       &>p {
+        font-family: 'PingFang SC';
         font-weight: 600;
         line-height: 20px;
         font-size: 12px;
@@ -49,6 +51,7 @@
       gap: 8px;
 
       &>p {
+        font-family: 'PingFang SC';
         font-weight: 600;
         font-size: 20px;
         line-height: 28px;
@@ -62,6 +65,7 @@
         border-radius: 2px;
 
         &>p {
+          font-family: 'PingFang SC';
           font-weight: 600;
           font-size: 12px;
           line-height: 20px;
@@ -99,6 +103,7 @@
     width: 100%;
 
     &>p {
+      font-family: 'PingFang SC';
       font-weight: 600;
       font-size: 12px;
       line-height: 20px;
@@ -119,6 +124,7 @@
         flex-grow: 1;
 
         .keytext {
+          font-family: 'PingFang SC';
           font-weight: 400;
           font-size: 12px;
           line-height: 20px;
@@ -126,6 +132,7 @@
         }
 
         .valuetext {
+          font-family: 'PingFang SC';
           font-weight: 400;
           font-size: 12px;
           line-height: 20px;
@@ -147,6 +154,7 @@
             gap: 4px;
 
             &>p {
+              font-family: 'PingFang SC';
               font-weight: 600;
               font-size: 12px;
               line-height: 20px;

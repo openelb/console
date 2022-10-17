@@ -5,14 +5,14 @@ import { get, set } from 'lodash'
 
 import styles from './index.module.scss'
 import IPSelect from './IPSelect'
-const IPDesc = "One or more IP addresses, which will be used by OpenELB，The value format can be like IP 、IP/Subnet mask、IP segment."
+const IPDesc = "One or more IP addresses, which will be used by OpenELB, The value format can be like IP 、IP/Subnet mask、IP segment."
 
 class EipSettings extends React.Component {
   constructor(props) {
     super(props)
-    console.log(props);
     this.state = {
       ipType: 'IP',
+      protocol: 'bgp',
       address: get(props.formTemplate, 'spec.address'),
       isDefault: get(props.formTemplate, "metadata.annotation['eip.openelb.kubesphere.io/is-default-eip']", false),
       disable: get(props.formTemplate, 'spec.disable', false),
@@ -39,9 +39,15 @@ class EipSettings extends React.Component {
     })
   }
 
+  handleProtocolChange = (value) => {
+    this.setState({
+      protocol: value
+    })
+  }
+
   render() {
     const { formRef, formTemplate } = this.props
-    const { isDefault, disable } = this.state
+    const { isDefault, disable, protocol } = this.state
 
     return (
       <Form data={formTemplate} ref={formRef}>
@@ -80,8 +86,9 @@ class EipSettings extends React.Component {
                     value: 'vip'
                   },
                 ]}
-                defaultValue={'layer2'}
-              // placeholder={""}
+                defaultValue={'bgp'}
+                onChange={this.handleProtocolChange}
+                placeholder="Select Protocol"
               />
             </Form.Item>
           </Column>
@@ -89,7 +96,7 @@ class EipSettings extends React.Component {
             <Form.Item
               label={"Interface"}
               desc={"NIC on which OpenELB listens for ARP or NDP requests. "}
-              rules={[{ required: true, message: 'Interface is required.' }]}
+              rules={[{ required: protocol !== 'bgp', message: 'Interface is required.' }]}
             >
               <Input name={"spec.interface"} />
             </Form.Item>
@@ -117,7 +124,7 @@ class EipSettings extends React.Component {
               {"Disable EIP"}
             </p>
             <p className={styles.des}>
-              {"If EIP is disabled，OpenELB will stop assigning IP addresses in the EIP object to new LoadBalancer Services. Existing Services are not affected."}
+              {"If EIP is disabled, OpenELB will stop assigning IP addresses in the EIP object to new LoadBalancer Services. Existing Services are not affected."}
             </p>
           </div>
         </div>

@@ -2,6 +2,7 @@ import {
   get,
   isObject,
   omit,
+  pick,
   size,
 } from 'lodash'
 
@@ -54,8 +55,9 @@ const BGPMapper = item => {
     bgpPeerLeaf: get(item,
       'spec.nodeSelector.matchLabels["openelb.kubesphere.io/rack"]', "-"),
     description: get(item,
-      `status.nodesPeerStatus.${nodeField}.peerState.description`, ""),
+      'metadata.annotations["openelb.io/description"]', ""),
     _originData: getOriginData(item),
+    _statusData: pick(item, ['status'])
   })
 }
 
@@ -64,9 +66,10 @@ const BGPConfMapper = item => ({
   as: get(item, 'spec.as', ""),
   listenPort: get(item, 'spec.listenPort', "-"),
   routerID: get(item, 'spec.routerId', ""),
-  nodeCount: size(item.status.nodesConfStatus, 0),
-  nodes: Object.keys(item.status.nodesConfStatus),
+  nodeCount: item.status ? size(item.status.nodesConfStatus, 0) : 0,
+  nodes: item.status ? Object.keys(item.status.nodesConfStatus) : [],
   _originData: getOriginData(item),
+  _statusData: pick(item, ['status'])
 })
 
 const EIPMapper = item => ({
@@ -86,6 +89,7 @@ const EIPMapper = item => ({
   ready: get(item, 'status.ready', false),
   used: get(item, 'status.used', []),
   _originData: getOriginData(item),
+  _statusData: pick(item, ['status'])
 })
 
 const Mappers = {

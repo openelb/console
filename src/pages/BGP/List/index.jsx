@@ -10,8 +10,10 @@ import connect from '../../../assets/connect-active-statusdot.svg'
 import established from '../../../assets/established-statusdot.svg'
 import idle from '../../../assets/idle-statusdot.svg'
 import opensent from '../../../assets/opensent-confirm-statusdot.svg'
-import { Icon } from "@kube-design/components"
+import { Button, Icon } from "@kube-design/components"
 import { toJS } from "mobx"
+import { trigger } from "../../../utils/action"
+import { isEmpty } from "lodash"
 
 class List extends Component {
   componentDidMount() {
@@ -20,6 +22,14 @@ class List extends Component {
 
   get routing() {
     return this.props.rootStore.routing
+  }
+
+  get store() {
+    return this.props.store
+  }
+
+  get bgpConf() {
+    return toJS(this.store.conf)
   }
 
   get BannerProps() {
@@ -41,8 +51,62 @@ class List extends Component {
     }
   }
 
+  get itemActions() {
+    const [editInfoAction, deleteAction] = this.props.tableProps.itemActions
+
+    return [
+      editInfoAction,
+      {
+        key: 'yaml',
+        icon: 'pen',
+        text: 'Edit YAML',
+        action: 'editYAML',
+        onClick: item =>
+          this.trigger('bgp.yaml.edit', {
+            detail: item,
+            success: this.routing.query,
+            store: this.store,
+          }),
+      },
+      {
+        key: 'settings',
+        icon: 'gateway-duotone',
+        text: 'Edit BgpPeer Setting',
+        action: 'editSetting',
+        onClick: item =>
+          this.trigger('bgp.settings.edit', {
+            detail: item,
+            success: this.routing.query,
+            store: this.store,
+          }),
+      },
+      deleteAction,
+    ]
+  }
+
   handleCreateClick = () => {
-    console.log('Do you want ro create a BGP? Do it.')
+
+    this.trigger('bgp.create', {
+      store: this.store,
+      success: this.routing.query,
+    })
+  }
+
+  handleCreateConfClick = () => {
+
+    this.trigger('bgpconf.create', {
+      store: this.store,
+      success: this.routing.query,
+    })
+  }
+
+  handleEditConfClick = () => {
+
+    this.trigger('bgpconf.edit', {
+      store: this.store,
+      detail: this.bgpConf,
+      success: this.routing.query,
+    })
   }
 
   getColumns() {
@@ -172,73 +236,93 @@ class List extends Component {
     ]
   }
 
-  renderBgpConf() {
-    const conf = toJS(this.props.store.conf)
+  renderBgpConfEmpty() {
+    return (<div className={styles.empty}>
+      <div className={styles.info}>
+        <Icon name="gateway-duotone" size={40} />
+        <div>
+          <p>BgpConf not Created</p>
+          Create a BgpConf object to configure local BGP properties on OpenELB.
+        </div>
+      </div>
+      <Button
+        type="control"
+        onClick={this.handleCreateConfClick}
+      >
+        Create
+      </Button>
+    </div>)
+  }
 
-    return (<div className={styles.bgpConf}>
-      <div className={styles.frame1}>
-        <div className={styles.summary}>
-          <Icon name="gateway-duotone" size={40} />
+  renderBgpConf() {
+    const conf = this.bgpConf
+
+    return (isEmpty(conf) ? this.renderBgpConfEmpty() :
+      (<div className={styles.bgpConf}>
+        <div className={styles.frame1}>
+          <div className={styles.summary}>
+            <Icon name="gateway-duotone" size={40} />
+            <div>
+              <div>
+                <p>{conf.name}</p>
+                BgpConf
+              </div>
+              <div style={{ flexGrow: 2 }}>
+                <p>{moment(new Date(conf.createTime))
+                  .format('YYYY-MM-DD hh:mm:ss') || '-'}</p>
+                Creation Time
+              </div>
+            </div>
+          </div>
+          <Button
+            onClick={this.handleEditConfClick}>
+            <p>Edit BgpConf</p>
+          </Button>
+        </div>
+
+        <div className={styles.frame2}>
+          <div>
+            <Icon name="duotone" size={40} />
+            <div>
+              <p>{conf.as}</p>
+              ASN
+            </div>
+          </div>
+          <div>
+            <Icon name="network-port" size={40} />
+            <div>
+              <p>{conf.listenPort}</p>
+              ListenPort
+            </div>
+          </div>
+          <div>
+            <Icon name="lab-router" size={40} />
+            <div>
+              <p>{conf.routerID}</p>
+              RouterID
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.frame3}>
           <div>
             <div>
-              <p>{conf.name}</p>
-              BgpConf
+              <span>
+                <div><p>{conf.nodeCount}</p></div>
+              </span>
+              <p>Running Nodes:</p>
             </div>
-            <div style={{ flexGrow: 2 }}>
-              <p>{moment(new Date(conf.createTime))
-                .format('YYYY-MM-DD hh:mm:ss') || '-'}</p>
-              Creation Time
+            <div>
+              {conf.nodes?.map((node, index) => {
+                return (<div key={index}>
+                  <Icon name="nodes" size={40} />
+                  <p>{node}</p>
+                </div>)
+              })}
             </div>
           </div>
         </div>
-        <button>
-          Edit BgpConf
-        </button>
-      </div>
-
-      <div className={styles.frame2}>
-        <div>
-          <Icon name="duotone" size={40} />
-          <div>
-            <p>{conf.as}</p>
-            ASN
-          </div>
-        </div>
-        <div>
-          <Icon name="network-port" size={40} />
-          <div>
-            <p>{conf.listenPort}</p>
-            ListenPort
-          </div>
-        </div>
-        <div>
-          <Icon name="lab-router" size={40} />
-          <div>
-            <p>{conf.routerID}</p>
-            RouterID
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.frame3}>
-        <div>
-          <div>
-            <span>
-              <div><p>{conf.nodeCount}</p></div>
-            </span>
-            <p>Running Nodes:</p>
-          </div>
-          <div>
-            {conf.nodes?.map((node, index) => {
-              return (<div key={index}>
-                <Icon name="nodes" size={40} />
-                <p>{node}</p>
-              </div>)
-            })}
-          </div>
-        </div>
-      </div>
-    </div>)
+      </div>))
   }
 
   render() {
@@ -251,8 +335,8 @@ class List extends Component {
         <ListPage {...this.props}>
           <Table
             {...tableProps}
-            columns={this.getColumns()}
             itemActions={this.itemActions}
+            columns={this.getColumns()}
             onCreate={this.handleCreateClick}
             searchType={'name'}
           />
@@ -262,4 +346,4 @@ class List extends Component {
   }
 }
 
-export default withList({ store: new BGPStore(), module: 'bgp' })(List)
+export default withList({ store: new BGPStore(), module: 'bgp', name: 'BGP' })(trigger(List))

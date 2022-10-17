@@ -65,7 +65,7 @@ export default class ModalForm extends React.Component {
                 onClick={onCancel}
                 data-test="modal-cancel"
               >
-                {cancelText || t('CANCEL')}
+                {cancelText || 'Cancel'}
               </Button>
               <Button
                 type="control"
@@ -74,7 +74,7 @@ export default class ModalForm extends React.Component {
                 disabled={disableOk || isSubmitting}
                 data-test="modal-ok"
               >
-                {okText || t('OK')}
+                {okText || 'Ok'}
               </Button>
             </div>
           )}

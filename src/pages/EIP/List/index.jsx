@@ -17,6 +17,10 @@ class List extends Component {
     return this.props.rootStore.routing
   }
 
+  get store() {
+    return this.props.store
+  }
+
   get BannerProps() {
     return {
       icon: 'eip-duotone',
@@ -27,28 +31,43 @@ class List extends Component {
   }
 
   get itemActions() {
-    const { tableProps, store } = this.props
+    const { tableProps } = this.props
+    const [, deleteAction] = tableProps.itemActions
 
     return [
-      ...tableProps.itemActions,
       {
-        icon: 'pen',
-        key: 'create',
-        text: 'Edit information',
-        onClick: () => {
-          this.trigger('eip.create', {
-            store
-          })
-        }
-      }
+        key: 'yaml',
+        icon: 'eye',
+        text: 'View YAML',
+        action: 'ViewYAML',
+        onClick: item =>
+          this.trigger('eip.yaml.view', {
+            detail: item,
+            success: this.routing.query,
+            store: this.store,
+          }),
+      },
+      {
+        key: 'disable',
+        icon: item => item.disable ? 'start' : 'stop',
+        text: item => item.disable ? 'Enable' : 'Disable',
+        action: 'Disable',
+        onClick: item =>
+        this.trigger('eip.disable', {
+          type: tableProps.name,
+          detail: item,
+          success: this.routing.query,
+          store: this.store
+        })
+      },
+      deleteAction,
     ]
   }
 
   handleCreateClick = () => {
-    const { store } = this.props
-    
     this.trigger('eip.create', {
-      store
+      store: this.store,
+      success: this.routing.query,
     })
   }
 
@@ -169,4 +188,4 @@ class List extends Component {
   }
 }
 
-export default withList({ store: new EIPStore(), module: 'eip' })(trigger(List))
+export default withList({ store: new EIPStore(), module: 'eip', name: 'EIP' })(trigger(List))
