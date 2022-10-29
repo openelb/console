@@ -15,6 +15,10 @@ const routes = [
         path: '/eip',
         component: EIP
       },
+      {
+        path:'/',
+        redirect: '/eip',
+      }
     ]
   }
 ]
