@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "ace-builds": "^1.9.6",
     "classnames": "^2.3.1",
+    "fast-copy": "^3.0.0",
     "file-saver": "^2.0.5",
     "js-yaml": "^3.12.0",
     "json-mock": "^0.1.0",

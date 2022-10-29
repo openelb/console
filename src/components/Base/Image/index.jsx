@@ -123,6 +123,7 @@ export default class Image extends React.Component {
     return (
       <img
         src={imgStr}
+        alt={''}
         data-origin-url={imgStr}
         className={classnames(styles.img, className)}
         ref={c => {

@@ -18,7 +18,7 @@
 
 import { get, omit, isUndefined, isFunction } from 'lodash'
 import React from 'react'
-import ReactDOM from 'react-dom'
+
 import { createRoot } from 'react-dom/client';
 import ReactModal from 'react-modal'
 import { observer } from 'mobx-react'
