@@ -1,0 +1,115 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openelb-console-config
+  namespace: openelb-system
+data:
+  default.conf: |
+    server {
+      listen       8088;
+      listen  [::]:8088;
+      server_name  localhost;
+
+      add_header Access-Control-Allow-Origin *;
+      add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS';
+      add_header Access-Control-Allow-Headers 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization';
+
+      if ($request_method = 'OPTIONS') {
+          return 204;
+      }
+
+      root /openelb;
+
+      location /apis {
+          proxy_pass http://openelb-manager;
+          proxy_connect_timeout 600;
+          proxy_read_timeout 600;
+      }
+
+      location / {
+          try_files $uri $uri/ @router;
+          index  index.html index.htm;
+      }
+
+      location @router {
+          rewrite ^.*$ /index.html last;
+      }
+    }
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: openelb-manager
+  namespace: openelb-system
+  labels:
+    app: openelb-manager
+spec:
+  ports:
+    - name: web
+      protocol: TCP
+      port: 80
+      targetPort: 30000
+  selector:
+    app: openelb-manager
+  type: ClusterIP
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: openelb-console
+  namespace: openelb-system
+  labels:
+    app: openelb-console
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openelb-console
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: openelb-console
+    spec:
+      volumes:
+        - name: openelb-console-config
+          configMap:
+            name: openelb-console-config
+            items:
+              - key: default.conf
+                path: default.conf
+            defaultMode: 420
+      containers:
+        - name: console
+          image: rykren/openelb-console:test
+          ports:
+            - name: http-0
+              containerPort: 8088
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - name: openelb-console-config
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: openelb-console
+  namespace: openelb-system
+  labels:
+    app: openelb-console
+spec:
+  ports:
+    - name: nginx
+      protocol: TCP
+      port: 80
+      targetPort: 8088
+      nodePort: 30870
+  selector:
+    app: openelb-console
+  type: NodePort
+  externalTrafficPolicy: Cluster
