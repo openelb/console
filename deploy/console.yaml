@@ -46,10 +46,10 @@ metadata:
     app: openelb-manager
 spec:
   ports:
-    - name: web
+    - name: server
       protocol: TCP
       port: 80
-      targetPort: 30000
+      targetPort: 8080
   selector:
     app: openelb-manager
   type: ClusterIP

@@ -26,9 +26,10 @@ The minimum version required is 1.22.19, but you can use a newer version.
 #### [Optional] Docker
 
 This is optional. If you just want to test and build on your local environment, there is no need to install docker. Otherwise, you need to install it.
-[Install on Mac](https://docs.docker.com/desktop/mac/install/)
-[Install on Windows](https://docs.docker.com/desktop/windows/install/)
-[Install on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+
+- [Install on Mac](https://docs.docker.com/desktop/mac/install/)
+- [Install on Windows](https://docs.docker.com/desktop/windows/install/)
+- [Install on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
 
 #### [Optional] Make
 
@@ -43,16 +44,35 @@ git clone https://github.com/openelb/console.git
 cd console/
 yarn
 ```
+* Make sure there is openelb-manager service of type nodeport in your cluster, if not create it:
+```yaml
+kind: Service
+apiVersion: v1
+metadata:
+  name: openelb-manager
+  namespace: openelb-system
+  labels:
+    app: openelb-manager
+spec:
+  ports:
+    - name: server
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+      nodePort: 30871
+  selector:
+    app: openelb-manager
+  type: NodePort
+```
+* Add openelb-manager service address into this function([createURL](https://github.com/openelb/console/blob/ea00c35e70b492990379bfebc41b27174265a083/src/utils/request.js#L98)) as follows:
 
-* and then, add openelb-manage service address into this function([createURL](https://github.com/openelb/console/blob/ea00c35e70b492990379bfebc41b27174265a083/src/utils/request.js#L98)) as follows:
-
-  > the default port  of openelb-manage service in k8s is `30000` .
+  > the default port  of openelb-manager service in k8s is `30871` .
 
 ```
-return `http://${your service machine ip}:${openelb-manage service address}:${port}/${path.trimLeft('/')}`
+return `http://${your service machine ip}:${openelb-manager service address}:${port}/${path.trimLeft('/')}`
 ```
 
-* next, run command:
+* Run command:
 
 ```
 yarn start
@@ -62,7 +82,7 @@ yarn start
 >
 > `yarn config set registry https://registry.npmmirror.com`
 
-* now, you can debug it in chrome browser.
+now, you can debug it in chrome browser.
 
 ## How to build
 
@@ -74,9 +94,9 @@ Just run the following command with your real `REPO` address.
 REPO=yourawesomerepo make container
 ```
 
-### run in docker
+### Run in docker
 
-1. Modify `server.domain:port` in `build/default.conf` to the actual deployment address of openelb console.
+1. Modify `server.domain:port` in `deploy/default.conf` to the actual deployment address of openelb console.
 2. Mount the configuration file into the docker container
 3. Expose container port 8088
 
@@ -86,7 +106,7 @@ docker run --rm -d --name=openelb-console -v ${PWD}/deploy/default.conf:/etc/ngi
 
 You can access openelb-console using ${hostIP}:8088. *(hostIP is the ip of the node where the command is run)*
 
-### run in kubernetes
+### Run in kubernetes
 
 Check whether the pod and service port information correspond to each other *(You may have modified the port listened by openelb-manager during installation)*. If there is no problem, install it into kubernetes using kubectl.
 
@@ -96,7 +116,7 @@ Use the service of nodeport type to expose the openelb-console service. Port 308
 kubectl apply -f deploy/console.yaml
 ```
 
-### get the frontend bundle file
+### Get the frontend bundle file
 
 If you want to get the frontend file in local machine, you can run:
 
